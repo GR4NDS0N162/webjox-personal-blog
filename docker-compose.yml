@@ -24,7 +24,7 @@ services:
 
   php:
     container_name: php
-    build: ./docker/php
+    build: ./www
     volumes:
       - type: bind
         source: ./www
