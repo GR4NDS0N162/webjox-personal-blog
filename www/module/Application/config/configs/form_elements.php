@@ -2,12 +2,12 @@
 
 namespace Application;
 
-use Laminas\ServiceManager\Factory\InvokableFactory;
+use Application\Factory\Form\SignUpFormFactory;
 
 return [
     'aliases'   => [
     ],
     'factories' => [
-        Form\Index\SignUpForm::class => InvokableFactory::class,
+        Form\Index\SignUpForm::class => SignUpFormFactory::class,
     ],
 ];

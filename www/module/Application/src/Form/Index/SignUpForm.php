@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application\Form\Index;
 
 use Application\Helper\Form\FieldsetMapper;
+use Application\Model\Options\RoleOptions;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Email;
 use Laminas\Form\Element\Password;
@@ -15,6 +16,18 @@ class SignUpForm extends Form
     public const DEFAULT_LABEL_ATTRIBUTES = [
         'class' => 'form-label',
     ];
+
+    private RoleOptions $roleOptions;
+
+    /**
+     * @param RoleOptions $roleOptions
+     */
+    public function __construct(RoleOptions $roleOptions)
+    {
+        parent::__construct();
+
+        $this->roleOptions = $roleOptions;
+    }
 
     /**
      * @inheritDoc
