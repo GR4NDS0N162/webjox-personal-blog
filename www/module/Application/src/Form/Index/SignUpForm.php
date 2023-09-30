@@ -9,6 +9,7 @@ use Application\Model\Options\RoleOptions;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Email;
 use Laminas\Form\Element\Password;
+use Laminas\Form\Element\Select;
 use Laminas\Form\Form;
 
 class SignUpForm extends Form
@@ -51,6 +52,20 @@ class SignUpForm extends Form
             'options'    => [
                 'label'            => 'E-mail',
                 'label_attributes' => self::DEFAULT_LABEL_ATTRIBUTES,
+            ],
+        ]);
+
+        $this->add([
+            'name'       => 'roleId',
+            'type'       => Select::class,
+            'attributes' => [
+                'class'    => 'form-select',
+                'required' => 'required',
+            ],
+            'options'    => [
+                'label'            => 'Role',
+                'label_attributes' => self::DEFAULT_LABEL_ATTRIBUTES,
+                'options'          => $this->roleOptions->getOptions(),
             ],
         ]);
 
@@ -102,6 +117,7 @@ class SignUpForm extends Form
         FieldsetMapper::setAttributes($this, [
             'children' => [
                 'email'         => 'col-12',
+                'roleId'        => 'col-12',
                 'newPassword'   => 'col-12',
                 'passwordCheck' => 'col-12',
                 'submitButton'  => 'col-12',
