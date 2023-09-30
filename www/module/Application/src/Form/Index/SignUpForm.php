@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Form\Index;
 
-use Application\Helper\FieldsetMapper;
+use Application\Helper\Form\FieldsetMapper;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Email;
 use Laminas\Form\Element\Password;

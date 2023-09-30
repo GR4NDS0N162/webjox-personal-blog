@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Application\Helper;
+namespace Application\Helper\Form;
 
 use Laminas\Form\Element\Collection;
 use Laminas\Form\ElementInterface;
