@@ -54,14 +54,16 @@ class FieldsetMapper
             foreach ($element->getFieldsets() as $item) {
                 if ($item instanceof Collection) {
                     self::setDisabled($item->getTargetElement());
-                } else {
+                }
+                else {
                     self::setDisabled($item);
                 }
             }
             foreach ($element->getElements() as $item) {
                 $item->setAttribute('disabled', true);
             }
-        } else {
+        }
+        else {
             $element->setAttribute('disabled', true);
         }
     }
