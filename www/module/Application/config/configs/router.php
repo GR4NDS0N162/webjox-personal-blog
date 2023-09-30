@@ -13,7 +13,7 @@ return [
             'options' => [
                 'route'    => '/',
                 'defaults' => [
-                    'controller' => Controller\LoginController::class,
+                    'controller' => Controller\IndexController::class,
                     'action'     => 'index',
                 ],
             ],

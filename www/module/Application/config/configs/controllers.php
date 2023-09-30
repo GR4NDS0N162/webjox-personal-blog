@@ -8,6 +8,6 @@ use Application\Factory\Controller as Factory;
 
 return [
     'factories' => [
-        Controller\LoginController::class => Factory\LoginControllerFactory::class,
+        Controller\IndexController::class => Factory\IndexControllerFactory::class,
     ],
 ];
