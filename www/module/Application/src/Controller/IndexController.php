@@ -29,7 +29,19 @@ class IndexController extends AbstractActionController
     {
         $request = $this->getRequest();
 
-        // TODO: Handle the request.
+        if (!$request->isPost()) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        $this->signUpForm->setData($request->getPost());
+
+        if (!$this->signUpForm->isValid()) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        $data = $this->signUpForm->getData();
+
+        // TODO: Register a user.
 
         return $this->redirect()->toRoute('home');
     }
