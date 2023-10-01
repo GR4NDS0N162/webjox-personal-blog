@@ -16,5 +16,6 @@ return [
     'factories' => [
         Options\RoleOptions::class       => OptionsFactory\RoleOptionsFactory::class,
         Repository\RoleRepository::class => RepositoryFactory\RoleRepositoryFactory::class,
+        Repository\UserRepository::class => RepositoryFactory\UserRepositoryFactory::class,
     ],
 ];
