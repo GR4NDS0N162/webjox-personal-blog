@@ -27,9 +27,9 @@ class IndexController extends AbstractActionController
 
     public function signUpAction(): Response
     {
-        // TODO: Process the request.
+        $request = $this->getRequest();
 
-        // TODO: Enter the user data into the database.
+        // TODO: Handle the request.
 
         return $this->redirect()->toRoute('home');
     }
