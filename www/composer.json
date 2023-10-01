@@ -69,5 +69,7 @@
             "laminas/laminas-component-installer": true,
             "laminas/laminas-skeleton-installer": true
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": false
 }
