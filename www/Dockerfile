@@ -17,6 +17,4 @@ RUN docker-php-ext-enable xdebug
 
 WORKDIR /var/www
 
-COPY commands.sh /scripts/commands.sh
-RUN ["chmod", "+x", "/scripts/commands.sh"]
-ENTRYPOINT ["/scripts/commands.sh"]
+ENTRYPOINT ["sh", "-c", "composer install && php-fpm"]
