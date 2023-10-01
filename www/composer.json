@@ -20,7 +20,7 @@
         "laminas/laminas-session": "^2.16",
         "laminas/laminas-i18n": "^2.23",
         "laminas/laminas-navigation": "^2.18",
-        "laminas/laminas-test": "^4.8"
+        "laminas/laminas-view": "^2.30"
     },
     "autoload": {
         "psr-4": {
