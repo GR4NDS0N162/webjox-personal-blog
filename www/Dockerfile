@@ -1,5 +1,8 @@
 FROM php:8.2-fpm
 
+## Install Composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
 ## Update package information
 RUN apt-get update
 
@@ -16,8 +19,6 @@ RUN docker-php-ext-install intl
 RUN docker-php-ext-install pdo_mysql
 
 WORKDIR /var/www
-
-COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 COPY commands.sh /scripts/commands.sh
 RUN ["chmod", "+x", "/scripts/commands.sh"]
