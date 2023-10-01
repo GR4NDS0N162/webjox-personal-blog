@@ -20,6 +20,15 @@ return [
             ],
             'may_terminate' => true,
             'child_routes'  => [
+                'signin' => [
+                    'type'    => Literal::class,
+                    'options' => [
+                        'route'    => 'signin',
+                        'defaults' => [
+                            'action' => 'signin',
+                        ],
+                    ],
+                ],
                 'signup' => [
                     'type'    => Literal::class,
                     'options' => [

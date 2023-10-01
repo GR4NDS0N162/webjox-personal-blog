@@ -1,13 +1,16 @@
 <?php
 /**
  * @var Laminas\View\Renderer\PhpRenderer|Laminas\Form\View\HelperTrait $this
- * @var Application\Form\Index\SignUpForm $signUpForm
+ * @var Application\Form\Index\SignInForm                               $signInForm
+ * @var Application\Form\Index\SignUpForm                               $signUpForm
  */
 
+$signInForm->setAttribute('action', $this->url('home/signin'));
 $signUpForm->setAttribute('action', $this->url('home/signup'));
 ?>
 <div class="card p-4 sign-in-card">
     <h1 class="mb-3">Sign in</h1>
+    <?= $this->form()->render($signInForm); ?>
     <div class="row gy-2 mt-2">
         <div class="col-12">
             <span>Don't have an account?</span>
