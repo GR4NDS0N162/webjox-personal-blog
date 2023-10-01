@@ -14,7 +14,8 @@ return [
         Repository\RoleRepositoryInterface::class => Repository\RoleRepository::class,
     ],
     'factories' => [
-        Options\RoleOptions::class       => OptionsFactory\RoleOptionsFactory::class,
+        Options\RoleOptions::class => OptionsFactory\RoleOptionsFactory::class,
+
         Repository\RoleRepository::class => RepositoryFactory\RoleRepositoryFactory::class,
         Repository\UserRepository::class => RepositoryFactory\UserRepositoryFactory::class,
     ],
