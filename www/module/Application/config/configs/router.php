@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Application\Controller\IndexController;
 use Laminas\Router\Http\Literal;
 
 return [
@@ -13,16 +14,16 @@ return [
             'options'       => [
                 'route'    => '/',
                 'defaults' => [
-                    'controller' => Controller\IndexController::class,
+                    'controller' => IndexController::class,
                     'action'     => 'index',
                 ],
             ],
             'may_terminate' => true,
             'child_routes'  => [
                 'signup' => [
-                    'type'    => 'literal',
+                    'type'    => Literal::class,
                     'options' => [
-                        'route'    => '/signup',
+                        'route'    => 'signup',
                         'defaults' => [
                             'action' => 'signup',
                         ],
