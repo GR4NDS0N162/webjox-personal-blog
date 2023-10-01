@@ -3,20 +3,13 @@ FROM php:8.2-fpm
 ## Install Composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-## Update package information
+## Update packages information
 RUN apt-get update
 
-## Install zip libraries and extension
-RUN apt-get install --yes git zlib1g-dev libzip-dev
-RUN docker-php-ext-install zip
-
-## Install intl library and extension
-RUN apt-get install --yes libicu-dev
+## Install packages and extensions
+RUN apt-get install -y git zlib1g-dev libzip-dev libicu-dev
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install intl
-
-## MySQL PDO support
-RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install intl zip pdo_mysql
 
 WORKDIR /var/www
 
