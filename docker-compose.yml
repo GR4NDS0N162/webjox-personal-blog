@@ -34,6 +34,9 @@ services:
       - type: bind
         source: ./www
         target: /var/www
+      - type: bind
+        source: ./docker/php/conf.d/docker-fpm.ini
+        target: /usr/local/etc/php/conf.d/docker-fpm.ini
     networks:
       - app-network
     depends_on:
