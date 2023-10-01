@@ -30,6 +30,7 @@ services:
   php:
     container_name: php
     build: ./www
+    env_file: ./.env
     volumes:
       - type: bind
         source: ./www
