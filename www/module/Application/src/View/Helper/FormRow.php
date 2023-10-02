@@ -22,6 +22,7 @@ class FormRow extends \Laminas\Form\View\Helper\FormRow
     public function render(ElementInterface $element, ?string $labelPosition = null): string
     {
         $floatingEnabled = $element->getOption(self::FLOATING_ENABLED);
+        $wrapperClass = $element->getOption(self::WRAPPER_CLASS);
 
         if ($floatingEnabled) {
             $labelPosition = self::LABEL_APPEND;
@@ -30,13 +31,11 @@ class FormRow extends \Laminas\Form\View\Helper\FormRow
         $markup = parent::render($element, $labelPosition);
 
         if ($floatingEnabled) {
-            $markup = '<div class="form-floating">' . $markup . '</div>';
+            $markup = sprintf('<div class="form-floating">%1$s</div>', $markup);
         }
 
-        $wrapperClass = $element->getOption(self::WRAPPER_CLASS);
-
         if ($wrapperClass) {
-            $markup = '<div class="' . $wrapperClass . '">' . $markup . '</div>';
+            $markup = sprintf('<div class="%1$s">%2$s</div>', $wrapperClass, $markup);
         }
 
         return $markup;

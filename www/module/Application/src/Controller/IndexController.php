@@ -22,6 +22,20 @@ class IndexController extends AbstractActionController
         private UserCommandInterface $userCommand,
     ) {}
 
+    public function indexAction(): ViewModel
+    {
+        $signInForm = $this->getSignInForm();
+        $signUpForm = $this->getSignUpForm();
+
+        $signInForm->setAttribute('action', $this->url()->fromRoute('home/signin'));
+        $signUpForm->setAttribute('action', $this->url()->fromRoute('home/signup'));
+
+        return new ViewModel([
+            'signInForm' => $signInForm,
+            'signUpForm' => $signUpForm,
+        ]);
+    }
+
     private function getSignInForm(): SignInForm
     {
         $signInForm = $this->formElementManager->get(SignInForm::class);
@@ -34,17 +48,6 @@ class IndexController extends AbstractActionController
         $signUpForm = $this->formElementManager->get(SignUpForm::class);
         assert($signUpForm instanceof SignUpForm);
         return $signUpForm;
-    }
-
-    public function indexAction(): ViewModel
-    {
-        $signInForm = $this->getSignInForm();
-        $signUpForm = $this->getSignUpForm();
-
-        return new ViewModel([
-            'signInForm' => $signInForm,
-            'signUpForm' => $signUpForm,
-        ]);
     }
 
     public function signInAction(): Response

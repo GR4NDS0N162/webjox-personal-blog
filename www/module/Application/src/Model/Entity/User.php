@@ -21,6 +21,10 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
 
     private ?int $roleId;
 
+    private InputFilterInterface $inputFilter;
+
+    private HydratorInterface $hydrator;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,10 +68,6 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
         $this->roleId = $roleId;
         return $this;
     }
-
-    private InputFilterInterface $inputFilter;
-
-    private HydratorInterface $hydrator;
 
     /**
      * @inheritDoc
