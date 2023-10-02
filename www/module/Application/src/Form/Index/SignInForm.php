@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Application\Form\Index;
 
-use Application\Helper\Form\FieldsetMapper;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Email;
 use Laminas\Form\Element\Password;
@@ -23,19 +22,14 @@ class SignInForm extends Form
     {
         parent::init();
 
-        $this->setAttribute('class', 'row gy-3 needs-validation');
-        $this->setAttribute('novalidate', true);
-
         $this->add([
             'name'       => 'email',
             'type'       => Email::class,
             'attributes' => [
                 'required' => 'required',
-                'class'    => 'form-control',
             ],
             'options'    => [
-                'label'            => 'E-mail',
-                'label_attributes' => self::DEFAULT_LABEL_ATTRIBUTES,
+                'label' => 'E-mail',
             ],
         ]);
 
@@ -44,11 +38,9 @@ class SignInForm extends Form
             'type'       => Password::class,
             'attributes' => [
                 'required' => 'required',
-                'class'    => 'form-control',
             ],
             'options'    => [
-                'label'            => 'Password',
-                'label_attributes' => self::DEFAULT_LABEL_ATTRIBUTES,
+                'label' => 'Password',
             ],
         ]);
 
@@ -56,20 +48,11 @@ class SignInForm extends Form
             'name'       => 'submit',
             'type'       => Button::class,
             'attributes' => [
-                'type'  => 'submit',
-                'class' => 'btn btn-lg btn-outline-success w-100',
+                'type' => 'submit',
             ],
             'options'    => [
                 'label' => 'Sign in',
             ],
         ], ['priority' => -10 ** 9]);
-
-        FieldsetMapper::setAttributes($this, [
-            'children' => [
-                'email'    => 'col-12',
-                'password' => 'col-12',
-                'submit'   => 'col-12',
-            ],
-        ]);
     }
 }
