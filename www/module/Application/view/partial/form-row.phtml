@@ -1,59 +1,100 @@
 <?php
 /**
- * @var Laminas\View\Renderer\PhpRenderer|Laminas\Form\View\HelperTrait $this
- * @var Laminas\Form\ElementInterface                                   $element
- * @var string|null                                                     $label
- * @var array|null                                                      $labelAttributes
- * @var string|null                                                     $labelPosition
- * @var bool                                                            $renderErrors
+ * @var PhpRenderer|HelperTrait $this
+ * @var ElementInterface        $element
+ * @var string|null             $label
+ * @var array|null              $labelAttributes
+ * @var string|null             $labelPosition
+ * @var bool                    $renderErrors
  */
 
+use Laminas\Form\Element\Button;
+use Laminas\Form\Element\Captcha;
+use Laminas\Form\Element\Checkbox;
+use Laminas\Form\Element\Collection;
+use Laminas\Form\Element\Color;
+use Laminas\Form\Element\Csrf;
+use Laminas\Form\Element\Date;
+use Laminas\Form\Element\DateSelect;
+use Laminas\Form\Element\DateTime;
+use Laminas\Form\Element\DateTimeLocal;
+use Laminas\Form\Element\DateTimeSelect;
+use Laminas\Form\Element\Email;
+use Laminas\Form\Element\File;
+use Laminas\Form\Element\Hidden;
+use Laminas\Form\Element\Image;
+use Laminas\Form\Element\Month;
+use Laminas\Form\Element\MonthSelect;
+use Laminas\Form\Element\MultiCheckbox;
+use Laminas\Form\Element\Number;
+use Laminas\Form\Element\Password;
+use Laminas\Form\Element\Radio;
+use Laminas\Form\Element\Range;
+use Laminas\Form\Element\Search;
+use Laminas\Form\Element\Select;
+use Laminas\Form\Element\Submit;
+use Laminas\Form\Element\Tel;
+use Laminas\Form\Element\Text;
+use Laminas\Form\Element\Textarea;
+use Laminas\Form\Element\Time;
+use Laminas\Form\Element\Url;
+use Laminas\Form\Element\Week;
+use Laminas\Form\ElementInterface;
+use Laminas\Form\LabelAwareInterface;
+use Laminas\Form\View\Helper\AbstractHelper;
+use Laminas\Form\View\Helper\FormElement;
+use Laminas\Form\View\Helper\FormElementErrors;
+use Laminas\Form\View\Helper\FormLabel;
+use Laminas\Form\View\HelperTrait;
+use Laminas\View\Helper\EscapeHtml;
+use Laminas\View\Renderer\PhpRenderer;
+
 $escapeHtmlHelper = $this->plugin('escapeHtml');
-if (!$escapeHtmlHelper instanceof Laminas\View\Helper\EscapeHtml) {
-    $escapeHtmlHelper = new Laminas\View\Helper\EscapeHtml();
+if (!$escapeHtmlHelper instanceof EscapeHtml) {
+    $escapeHtmlHelper = new EscapeHtml();
 }
 
 $plugins = [
-    Laminas\Form\Element\Button::class         => 'formButton',
-    Laminas\Form\Element\Captcha::class        => 'formCaptcha',
-    Laminas\Form\Element\Checkbox::class       => 'formCheckbox',
-    Laminas\Form\Element\Collection::class     => 'formCollection',
-    Laminas\Form\Element\Color::class          => 'formColor',
-    Laminas\Form\Element\Csrf::class           => 'formCsrf',
-    Laminas\Form\Element\Date::class           => 'formDate',
-    Laminas\Form\Element\DateSelect::class     => 'formDateSelect',
-    Laminas\Form\Element\DateTime::class       => 'formDateTime',
-    Laminas\Form\Element\DateTimeLocal::class  => 'formDateTimeLocal',
-    Laminas\Form\Element\DateTimeSelect::class => 'formDateTimeSelect',
-    Laminas\Form\Element\Email::class          => 'formEmail',
-    Laminas\Form\Element\File::class           => 'formFile',
-    Laminas\Form\Element\Hidden::class         => 'formHidden',
-    Laminas\Form\Element\Image::class          => 'formImage',
-    Laminas\Form\Element\Month::class          => 'formMonth',
-    Laminas\Form\Element\MonthSelect::class    => 'formMonthSelect',
-    Laminas\Form\Element\MultiCheckbox::class  => 'formMultiCheckbox',
-    Laminas\Form\Element\Number::class         => 'formNumber',
-    Laminas\Form\Element\Password::class       => 'formPassword',
-    Laminas\Form\Element\Radio::class          => 'formRadio',
-    Laminas\Form\Element\Range::class          => 'formRange',
-    Laminas\Form\Element\Search::class         => 'formSearch',
-    Laminas\Form\Element\Select::class         => 'formSelect',
-    Laminas\Form\Element\Submit::class         => 'formSubmit',
-    Laminas\Form\Element\Tel::class            => 'formTel',
-    Laminas\Form\Element\Text::class           => 'formText',
-    Laminas\Form\Element\Textarea::class       => 'formTextarea',
-    Laminas\Form\Element\Time::class           => 'formTime',
-    Laminas\Form\Element\Url::class            => 'formUrl',
-    Laminas\Form\Element\Week::class           => 'formWeek',
+    Button::class         => 'formButton',
+    Captcha::class        => 'formCaptcha',
+    Checkbox::class       => 'formCheckbox',
+    Collection::class     => 'formCollection',
+    Color::class          => 'formColor',
+    Csrf::class           => 'formCsrf',
+    Date::class           => 'formDate',
+    DateSelect::class     => 'formDateSelect',
+    DateTime::class       => 'formDateTime',
+    DateTimeLocal::class  => 'formDateTimeLocal',
+    DateTimeSelect::class => 'formDateTimeSelect',
+    Email::class          => 'formEmail',
+    File::class           => 'formFile',
+    Hidden::class         => 'formHidden',
+    Image::class          => 'formImage',
+    Month::class          => 'formMonth',
+    MonthSelect::class    => 'formMonthSelect',
+    MultiCheckbox::class  => 'formMultiCheckbox',
+    Number::class         => 'formNumber',
+    Password::class       => 'formPassword',
+    Radio::class          => 'formRadio',
+    Range::class          => 'formRange',
+    Search::class         => 'formSearch',
+    Select::class         => 'formSelect',
+    Submit::class         => 'formSubmit',
+    Tel::class            => 'formTel',
+    Text::class           => 'formText',
+    Textarea::class       => 'formTextarea',
+    Time::class           => 'formTime',
+    Url::class            => 'formUrl',
+    Week::class           => 'formWeek',
 ];
 $elementHelper = $this->plugin($plugins[get_class($element)] ?? 'formElement');
-if (!$elementHelper instanceof Laminas\Form\View\Helper\AbstractHelper) {
-    $elementHelper = new Laminas\Form\View\Helper\FormElement();
+if (!$elementHelper instanceof AbstractHelper) {
+    $elementHelper = new FormElement();
 }
 
 $labelHelper = $this->plugin('formLabel');
-if (!$labelHelper instanceof Laminas\Form\View\Helper\FormLabel) {
-    $labelHelper = new Laminas\Form\View\Helper\FormLabel();
+if (!$labelHelper instanceof FormLabel) {
+    $labelHelper = new FormLabel();
 }
 if ($this->formRow()->hasTranslator()) {
     $labelHelper->setTranslator(
@@ -63,8 +104,8 @@ if ($this->formRow()->hasTranslator()) {
 }
 
 $elementErrorsHelper = $this->plugin('formElementErrors');
-if (!$elementErrorsHelper instanceof Laminas\Form\View\Helper\FormElementErrors) {
-    $elementErrorsHelper = new Laminas\Form\View\Helper\FormElementErrors();
+if (!$elementErrorsHelper instanceof FormElementErrors) {
+    $elementErrorsHelper = new FormElementErrors();
 }
 
 $elementErrors = '';
@@ -76,11 +117,11 @@ $elementString = $elementHelper->render($element);
 
 $type = $element->getAttribute('type');
 
-if ($element instanceof Laminas\Form\LabelAwareInterface) {
+if ($element instanceof LabelAwareInterface) {
     $labelAttributes = $element->getLabelAttributes() ?: $labelAttributes;
 }
 
-if (!$element instanceof Laminas\Form\LabelAwareInterface || !$element->getLabelOption('disable_html_escape')) {
+if (!$element instanceof LabelAwareInterface || !$element->getLabelOption('disable_html_escape')) {
     $label = $escapeHtmlHelper($label);
 }
 
