@@ -20,7 +20,9 @@
         "laminas/laminas-session": "^2.16",
         "laminas/laminas-i18n": "^2.23",
         "laminas/laminas-navigation": "^2.18",
-        "laminas/laminas-view": "^2.30"
+        "laminas/laminas-view": "^2.30",
+        "laminas/laminas-di": "3.13.x-dev",
+        "laminas/laminas-servicemanager": "3.22.x-dev"
     },
     "autoload": {
         "psr-4": {
