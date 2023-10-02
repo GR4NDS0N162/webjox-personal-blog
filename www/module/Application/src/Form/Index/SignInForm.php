@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Form\Index;
 
+use Application\View\Helper\FormRow;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Email;
 use Laminas\Form\Element\Password;
@@ -11,10 +12,6 @@ use Laminas\Form\Form;
 
 class SignInForm extends Form
 {
-    public const DEFAULT_LABEL_ATTRIBUTES = [
-        'class' => 'form-label',
-    ];
-
     /**
      * @inheritDoc
      */
@@ -26,10 +23,17 @@ class SignInForm extends Form
             'name'       => 'email',
             'type'       => Email::class,
             'attributes' => [
-                'required' => 'required',
+                'required'    => 'required',
+                'class'       => 'form-control',
+                'id'          => 'sign-in-form-email',
+                'placeholder' => '',
             ],
             'options'    => [
-                'label' => 'E-mail',
+                'label'                   => 'E-mail',
+                'label_attributes'        => [
+                    'class' => 'form-label',
+                ],
+                FormRow::FLOATING_ENABLED => true,
             ],
         ]);
 
@@ -37,10 +41,17 @@ class SignInForm extends Form
             'name'       => 'password',
             'type'       => Password::class,
             'attributes' => [
-                'required' => 'required',
+                'required'    => 'required',
+                'class'       => 'form-control',
+                'id'          => 'sign-in-form-password',
+                'placeholder' => '',
             ],
             'options'    => [
-                'label' => 'Password',
+                'label'                   => 'Password',
+                'label_attributes'        => [
+                    'class' => 'form-label',
+                ],
+                FormRow::FLOATING_ENABLED => true,
             ],
         ]);
 
@@ -48,7 +59,8 @@ class SignInForm extends Form
             'name'       => 'submit',
             'type'       => Button::class,
             'attributes' => [
-                'type' => 'submit',
+                'type'  => 'submit',
+                'class' => 'btn btn-lg btn-outline-primary w-100',
             ],
             'options'    => [
                 'label' => 'Sign in',
