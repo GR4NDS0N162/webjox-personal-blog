@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Application;
 
-use Application\Factory\Command\UserCommandFactory;
-use Application\Factory\Options\RoleOptionsFactory;
-use Application\Factory\Repository\RoleRepositoryFactory;
-use Application\Factory\Repository\UserRepositoryFactory;
 use Application\Model\Command\UserCommand;
 use Application\Model\Command\UserCommandInterface;
 use Application\Model\Options\RoleOptions;
@@ -15,6 +11,8 @@ use Application\Model\Repository\RoleRepository;
 use Application\Model\Repository\RoleRepositoryInterface;
 use Application\Model\Repository\UserRepository;
 use Application\Model\Repository\UserRepositoryInterface;
+use Laminas\Db\Adapter\AdapterInterface;
+use Psr\Container\ContainerInterface;
 
 return [
     'aliases'            => [
@@ -23,10 +21,27 @@ return [
         UserRepositoryInterface::class => UserRepository::class,
     ],
     'factories'          => [
-        UserCommand::class    => UserCommandFactory::class,
-        RoleOptions::class    => RoleOptionsFactory::class,
-        RoleRepository::class => RoleRepositoryFactory::class,
-        UserRepository::class => UserRepositoryFactory::class,
+        UserCommand::class    => function (ContainerInterface $container, $requestedName, ?array $options = null) {
+            return new $requestedName(
+                $container->get(AdapterInterface::class),
+                $container->get(UserRepositoryInterface::class),
+            );
+        },
+        RoleOptions::class    => function (ContainerInterface $container, $requestedName, ?array $options = null) {
+            return new $requestedName(
+                $container->get(RoleRepositoryInterface::class),
+            );
+        },
+        RoleRepository::class => function (ContainerInterface $container, $requestedName, ?array $options = null) {
+            return new $requestedName(
+                $container->get(AdapterInterface::class),
+            );
+        },
+        UserRepository::class => function (ContainerInterface $container, $requestedName, ?array $options = null) {
+            return new $requestedName(
+                $container->get(AdapterInterface::class),
+            );
+        },
     ],
     'services'           => [
     ],
