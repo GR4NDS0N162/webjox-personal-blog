@@ -2,7 +2,6 @@
 
 namespace Application\Helper\Repository;
 
-use InvalidArgumentException;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\ResultSet\HydratingResultSet;
@@ -53,16 +52,15 @@ class Extracter
      * @param HydratorInterface|null $hydrator
      * @param object|null            $prototype
      *
-     * @return object
+     * @return object|null
      * @throws RuntimeException
-     * @throws InvalidArgumentException
      */
     public static function extractValue(
         PreparableSqlInterface $preparable,
         AdapterInterface $db,
         HydratorInterface $hydrator = null,
         object $prototype = null,
-    ): object {
+    ): ?object {
         $sql = new Sql($db);
         $statement = $sql->prepareStatementForSqlObject($preparable);
         $result = $statement->execute();
@@ -75,14 +73,6 @@ class Extracter
 
         $resultSet = new HydratingResultSet($hydrator, $prototype);
         $resultSet->initialize($result);
-        $object = $resultSet->current();
-
-        if (!$object) {
-            throw new InvalidArgumentException(
-                'Object not found.'
-            );
-        }
-
-        return $object;
+        return $resultSet->current();
     }
 }

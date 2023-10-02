@@ -6,6 +6,7 @@ namespace Application\Controller;
 
 use Application\Form\Index\SignInForm;
 use Application\Form\Index\SignUpForm;
+use Application\Model\Repository\UserRepositoryInterface;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
@@ -16,12 +17,16 @@ class IndexController extends AbstractActionController
 
     private SignUpForm $signUpForm;
 
+    private UserRepositoryInterface $userRepository;
+
     public function __construct(
         SignInForm $signInForm,
         SignUpForm $signUpForm,
+        UserRepositoryInterface $userRepository,
     ) {
         $this->signInForm = $signInForm;
         $this->signUpForm = $signUpForm;
+        $this->userRepository = $userRepository;
     }
 
     public function indexAction(): ViewModel

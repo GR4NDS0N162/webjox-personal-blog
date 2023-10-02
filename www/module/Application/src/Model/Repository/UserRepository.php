@@ -24,7 +24,7 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function findById(int $id): User
+    public function findById(int $id): ?User
     {
         $select = new Select(['u' => 'users']);
         $select->columns([
@@ -35,7 +35,32 @@ class UserRepository implements UserRepositoryInterface
         ], false);
         $select->where(['u.id = ?' => $id]);
 
-        /** @var User $object */
+        /** @var User|null $object */
+        $object = Extracter::extractValue(
+            $select,
+            $this->db,
+            $this->prototype->getHydrator(),
+            $this->prototype
+        );
+
+        return $object;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findByEmail(string $email): ?User
+    {
+        $select = new Select(['u' => 'users']);
+        $select->columns([
+            'id'       => 'u.id',
+            'email'    => 'u.email',
+            'password' => 'u.password',
+            'role_id'  => 'u.role_id',
+        ], false);
+        $select->where(['u.email = ?' => $email]);
+
+        /** @var User|null $object */
         $object = Extracter::extractValue(
             $select,
             $this->db,

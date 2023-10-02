@@ -11,9 +11,16 @@ interface UserRepositoryInterface
     /**
      * @param int $id
      *
-     * @return User
+     * @return User|null
      */
-    public function findById(int $id): User;
+    public function findById(int $id): ?User;
+
+    /**
+     * @param string $email
+     *
+     * @return User|null
+     */
+    public function findByEmail(string $email): ?User;
 
     /**
      * @return User[]
