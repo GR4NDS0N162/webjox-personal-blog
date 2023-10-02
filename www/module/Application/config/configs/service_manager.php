@@ -4,26 +4,43 @@ declare(strict_types=1);
 
 namespace Application;
 
-use Application\Factory\Command as CommandFactory;
-use Application\Factory\Options as OptionsFactory;
-use Application\Factory\Repository as RepositoryFactory;
-use Application\Model\Command as Command;
-use Application\Model\Options as Options;
-use Application\Model\Repository as Repository;
+use Application\Factory\Command\UserCommandFactory;
+use Application\Factory\Options\RoleOptionsFactory;
+use Application\Factory\Repository\RoleRepositoryFactory;
+use Application\Factory\Repository\UserRepositoryFactory;
+use Application\Model\Command\UserCommand;
+use Application\Model\Command\UserCommandInterface;
+use Application\Model\Options\RoleOptions;
+use Application\Model\Repository\RoleRepository;
+use Application\Model\Repository\RoleRepositoryInterface;
+use Application\Model\Repository\UserRepository;
+use Application\Model\Repository\UserRepositoryInterface;
 
 return [
-    'aliases'   => [
-        Command\UserCommandInterface::class => Command\UserCommand::class,
-
-        Repository\RoleRepositoryInterface::class => Repository\RoleRepository::class,
-        Repository\UserRepositoryInterface::class => Repository\UserRepository::class,
+    'aliases'            => [
+        UserCommandInterface::class    => UserCommand::class,
+        RoleRepositoryInterface::class => RoleRepository::class,
+        UserRepositoryInterface::class => UserRepository::class,
     ],
-    'factories' => [
-        Command\UserCommand::class => CommandFactory\UserCommandFactory::class,
-
-        Options\RoleOptions::class => OptionsFactory\RoleOptionsFactory::class,
-
-        Repository\RoleRepository::class => RepositoryFactory\RoleRepositoryFactory::class,
-        Repository\UserRepository::class => RepositoryFactory\UserRepositoryFactory::class,
+    'factories'          => [
+        UserCommand::class    => UserCommandFactory::class,
+        RoleOptions::class    => RoleOptionsFactory::class,
+        RoleRepository::class => RoleRepositoryFactory::class,
+        UserRepository::class => UserRepositoryFactory::class,
     ],
+    'services'           => [
+    ],
+    'invokables'         => [
+    ],
+    'abstract_factories' => [
+    ],
+    'delegators'         => [
+    ],
+    'initializers'       => [
+    ],
+    'lazy_services'      => [
+    ],
+    'shared'             => [
+    ],
+    'shared_by_default'  => true,
 ];
