@@ -270,12 +270,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-development-mode.git",
-                "reference": "103086a287a9ddf08a5cbf86f09980de662adca0"
+                "reference": "4bf21abfd43468b292e6e80e4a137e2e82e2853c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-development-mode/zipball/103086a287a9ddf08a5cbf86f09980de662adca0",
-                "reference": "103086a287a9ddf08a5cbf86f09980de662adca0",
+                "url": "https://api.github.com/repos/laminas/laminas-development-mode/zipball/4bf21abfd43468b292e6e80e4a137e2e82e2853c",
+                "reference": "4bf21abfd43468b292e6e80e4a137e2e82e2853c",
                 "shasum": ""
             },
             "require": {
@@ -324,7 +324,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-09-25T00:52:51+00:00"
+            "time": "2023-10-02T01:22:26+00:00"
         },
         {
             "name": "laminas/laminas-escaper",
@@ -332,12 +332,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-escaper.git",
-                "reference": "4ba94d5f66366c0d13f08611d3bd9fb370305189"
+                "reference": "1cd26bc8e1da257a0dbc512ea0cc577f7c3ec1ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-escaper/zipball/4ba94d5f66366c0d13f08611d3bd9fb370305189",
-                "reference": "4ba94d5f66366c0d13f08611d3bd9fb370305189",
+                "url": "https://api.github.com/repos/laminas/laminas-escaper/zipball/1cd26bc8e1da257a0dbc512ea0cc577f7c3ec1ed",
+                "reference": "1cd26bc8e1da257a0dbc512ea0cc577f7c3ec1ed",
                 "shasum": ""
             },
             "require": {
@@ -387,7 +387,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-09-25T00:45:15+00:00"
+            "time": "2023-10-02T00:57:10+00:00"
         },
         {
             "name": "laminas/laminas-eventmanager",
@@ -871,12 +871,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-inputfilter.git",
-                "reference": "09b8f1e3269aeceb570e4468a6a83ad8674122fc"
+                "reference": "ed56db991c531bf6d036297ccbf770eb4a7b9a6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-inputfilter/zipball/09b8f1e3269aeceb570e4468a6a83ad8674122fc",
-                "reference": "09b8f1e3269aeceb570e4468a6a83ad8674122fc",
+                "url": "https://api.github.com/repos/laminas/laminas-inputfilter/zipball/ed56db991c531bf6d036297ccbf770eb4a7b9a6d",
+                "reference": "ed56db991c531bf6d036297ccbf770eb4a7b9a6d",
                 "shasum": ""
             },
             "require": {
@@ -938,7 +938,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-09-25T01:46:35+00:00"
+            "time": "2023-10-02T00:40:57+00:00"
         },
         {
             "name": "laminas/laminas-json",
@@ -1614,12 +1614,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-stdlib.git",
-                "reference": "0e61b862abd7bd6d38d4fdeaebb61d55be03a4fa"
+                "reference": "ac693493e0ff3a2611f126eb23dfbc3c4a83b0c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/0e61b862abd7bd6d38d4fdeaebb61d55be03a4fa",
-                "reference": "0e61b862abd7bd6d38d4fdeaebb61d55be03a4fa",
+                "url": "https://api.github.com/repos/laminas/laminas-stdlib/zipball/ac693493e0ff3a2611f126eb23dfbc3c4a83b0c0",
+                "reference": "ac693493e0ff3a2611f126eb23dfbc3c4a83b0c0",
                 "shasum": ""
             },
             "require": {
@@ -1666,7 +1666,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-09-25T00:44:16+00:00"
+            "time": "2023-10-02T00:39:34+00:00"
         },
         {
             "name": "laminas/laminas-uri",
@@ -1733,12 +1733,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-validator.git",
-                "reference": "786dcb44b031a636aef475abbbf29a4389526018"
+                "reference": "f8d8ae760c9799fbad19ffffe98506c4098a782a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/786dcb44b031a636aef475abbbf29a4389526018",
-                "reference": "786dcb44b031a636aef475abbbf29a4389526018",
+                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/f8d8ae760c9799fbad19ffffe98506c4098a782a",
+                "reference": "f8d8ae760c9799fbad19ffffe98506c4098a782a",
                 "shasum": ""
             },
             "require": {
@@ -1810,7 +1810,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-09-25T00:36:11+00:00"
+            "time": "2023-10-02T00:52:00+00:00"
         },
         {
             "name": "laminas/laminas-view",
@@ -1818,12 +1818,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-view.git",
-                "reference": "83a29ac6c3ddb7e068382402ebacbb84e14cd98b"
+                "reference": "99f6d3973e57e806e93e85f956d39e36ce383d59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/83a29ac6c3ddb7e068382402ebacbb84e14cd98b",
-                "reference": "83a29ac6c3ddb7e068382402ebacbb84e14cd98b",
+                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/99f6d3973e57e806e93e85f956d39e36ce383d59",
+                "reference": "99f6d3973e57e806e93e85f956d39e36ce383d59",
                 "shasum": ""
             },
             "require": {
@@ -1911,7 +1911,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-09-25T01:23:21+00:00"
+            "time": "2023-10-02T00:40:02+00:00"
         },
         {
             "name": "nikic/php-parser",
