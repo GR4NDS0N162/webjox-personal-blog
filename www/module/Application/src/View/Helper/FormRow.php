@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Application\View\Helper;
 
+use Laminas\Form\ElementInterface;
+
 class FormRow extends \Laminas\Form\View\Helper\FormRow
 {
-    public function __construct()
+    /**
+     * @inheritDoc
+     */
+    public function render(ElementInterface $element, ?string $labelPosition = null): string
     {
-        $this->setPartial('partial/form-row');
+        return ''; // TODO: Implement render() method.
     }
 }
