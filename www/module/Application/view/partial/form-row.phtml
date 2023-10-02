@@ -117,19 +117,23 @@ $elementString = $elementHelper->render($element);
 
 $type = $element->getAttribute('type');
 
-if ($element instanceof LabelAwareInterface) {
-    $labelAttributes = $element->getLabelAttributes() ?: $labelAttributes;
-}
+if (isset($label) && $label !== '' && $type !== 'hidden') {
+    if ($element instanceof LabelAwareInterface) {
+        $labelAttributes = $element->getLabelAttributes() ?: $labelAttributes;
+    }
 
-if (!$element instanceof LabelAwareInterface || !$element->getLabelOption('disable_html_escape')) {
-    $label = $escapeHtmlHelper($label);
-}
+    if (!$element instanceof LabelAwareInterface || !$element->getLabelOption('disable_html_escape')) {
+        $label = $escapeHtmlHelper($label);
+    }
 
-if ($renderErrors) {
-    $markup = $elementString . $elementErrors;
 }
 else {
-    $markup = $elementString;
+    if ($renderErrors) {
+        $markup = $elementString . $elementErrors;
+    }
+    else {
+        $markup = $elementString;
+    }
 }
 
 echo $markup;
