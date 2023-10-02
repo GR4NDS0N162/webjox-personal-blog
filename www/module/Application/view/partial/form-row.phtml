@@ -74,6 +74,16 @@ if ($renderErrors) {
 
 $elementString = $elementHelper->render($element);
 
+$type = $element->getAttribute('type');
+
+if ($element instanceof Laminas\Form\LabelAwareInterface) {
+    $labelAttributes = $element->getLabelAttributes() ?: $labelAttributes;
+}
+
+if (!$element instanceof Laminas\Form\LabelAwareInterface || !$element->getLabelOption('disable_html_escape')) {
+    $label = $escapeHtmlHelper($label);
+}
+
 if ($renderErrors) {
     $markup = $elementString . $elementErrors;
 }
