@@ -9,55 +9,58 @@ use Application\Form\Index\SignUpForm;
 use Application\Model\Command\UserCommandInterface;
 use Application\Model\Entity\User;
 use Application\Model\Repository\UserRepositoryInterface;
+use Laminas\Form\FormElementManager;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
-    private SignInForm $signInForm;
-
-    private SignUpForm $signUpForm;
-
-    private UserRepositoryInterface $userRepository;
-
-    private UserCommandInterface $userCommand;
-
     public function __construct(
-        SignInForm $signInForm,
-        SignUpForm $signUpForm,
-        UserRepositoryInterface $userRepository,
-        UserCommandInterface $userCommand,
-    ) {
-        $this->signInForm = $signInForm;
-        $this->signUpForm = $signUpForm;
-        $this->userRepository = $userRepository;
-        $this->userCommand = $userCommand;
+        private FormElementManager $formElementManager,
+        private UserRepositoryInterface $userRepository,
+        private UserCommandInterface $userCommand,
+    ) {}
+
+    private function getSignInForm(): SignInForm
+    {
+        $signInForm = $this->formElementManager->get(SignInForm::class);
+        assert($signInForm instanceof SignInForm);
+        return $signInForm;
+    }
+
+    private function getSignUpForm(): SignUpForm
+    {
+        $signUpForm = $this->formElementManager->get(SignUpForm::class);
+        assert($signUpForm instanceof SignUpForm);
+        return $signUpForm;
     }
 
     public function indexAction(): ViewModel
     {
+        $signInForm = $this->getSignInForm();
+        $signUpForm = $this->getSignUpForm();
+
         return new ViewModel([
-            'signInForm' => $this->signInForm,
-            'signUpForm' => $this->signUpForm,
+            'signInForm' => $signInForm,
+            'signUpForm' => $signUpForm,
         ]);
     }
 
     public function signInAction(): Response
     {
         $request = $this->getRequest();
-
         if (!$request->isPost()) {
             return $this->redirect()->toRoute('home');
         }
 
-        $this->signInForm->setData($request->getPost());
-
-        if (!$this->signInForm->isValid()) {
+        $form = $this->getSignInForm();
+        $form->setData($request->getPost());
+        if (!$form->isValid()) {
             return $this->redirect()->toRoute('home');
         }
 
-        $data = $this->signInForm->getData();
+        $data = $form->getData();
 
         // TODO: Authorize the user.
 
@@ -67,18 +70,17 @@ class IndexController extends AbstractActionController
     public function signUpAction(): Response
     {
         $request = $this->getRequest();
-
         if (!$request->isPost()) {
             return $this->redirect()->toRoute('home');
         }
 
-        $this->signUpForm->setData($request->getPost());
-
-        if (!$this->signUpForm->isValid()) {
+        $form = $this->getSignUpForm();
+        $form->setData($request->getPost());
+        if (!$form->isValid()) {
             return $this->redirect()->toRoute('home');
         }
 
-        $data = $this->signUpForm->getData();
+        $data = $form->getData();
 
         if ($data['new-password'] !== $data['password-check']) {
             return $this->redirect()->toRoute('home');
