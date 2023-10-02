@@ -38,7 +38,7 @@ class UserCommand implements UserCommandInterface
             'role_id'  => $user->getRoleId(),
         ]);
 
-        $user->setId(Executer::executeSql($insert, $this->db));
+        $user->setId((int)Executer::executeSql($insert, $this->db));
 
         return $user->getId();
     }

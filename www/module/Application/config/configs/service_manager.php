@@ -13,7 +13,10 @@ use Application\Model\Repository as Repository;
 
 return [
     'aliases'   => [
+        Command\UserCommandInterface::class => Command\UserCommand::class,
+
         Repository\RoleRepositoryInterface::class => Repository\RoleRepository::class,
+        Repository\UserRepositoryInterface::class => Repository\UserRepository::class,
     ],
     'factories' => [
         Command\UserCommand::class => CommandFactory\UserCommandFactory::class,

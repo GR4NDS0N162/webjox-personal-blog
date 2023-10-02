@@ -7,6 +7,7 @@ namespace Application\Factory\Controller;
 use Application\Controller\IndexController;
 use Application\Form\Index\SignInForm;
 use Application\Form\Index\SignUpForm;
+use Application\Model\Command\UserCommandInterface;
 use Application\Model\Repository\UserRepositoryInterface;
 use Interop\Container\ContainerInterface;
 use Laminas\Form\FormElementManager;
@@ -28,10 +29,14 @@ class IndexControllerFactory implements FactoryInterface
         /** @var UserRepositoryInterface $userRepository */
         $userRepository = $container->get(UserRepositoryInterface::class);
 
+        /** @var UserCommandInterface $userCommand */
+        $userCommand = $container->get(UserCommandInterface::class);
+
         return new IndexController(
             $signInForm,
             $signUpForm,
             $userRepository,
+            $userCommand,
         );
     }
 }
