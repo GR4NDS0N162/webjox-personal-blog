@@ -33,6 +33,8 @@ class SignUpForm extends Form
     {
         parent::init();
 
+        $this->setAttribute('class', 'row g-3');
+
         $this->add([
             'name'       => 'email',
             'type'       => Email::class,
@@ -48,6 +50,7 @@ class SignUpForm extends Form
                     'class' => 'form-label',
                 ],
                 FormRow::FLOATING_ENABLED => true,
+                FormRow::WRAPPER_CLASS    => 'col-12',
             ],
         ]);
 
@@ -65,6 +68,7 @@ class SignUpForm extends Form
                     'class' => 'form-label',
                 ],
                 FormRow::FLOATING_ENABLED => true,
+                FormRow::WRAPPER_CLASS    => 'col-12',
                 'options'                 => $this->roleOptions->getOptions(),
             ],
         ]);
@@ -87,6 +91,7 @@ class SignUpForm extends Form
                     'class' => 'form-label',
                 ],
                 FormRow::FLOATING_ENABLED => true,
+                FormRow::WRAPPER_CLASS    => 'col-12',
             ],
         ]);
 
@@ -105,6 +110,7 @@ class SignUpForm extends Form
                     'class' => 'form-label',
                 ],
                 FormRow::FLOATING_ENABLED => true,
+                FormRow::WRAPPER_CLASS    => 'col-12',
             ],
         ]);
 
@@ -116,7 +122,8 @@ class SignUpForm extends Form
                 'class' => 'btn btn-lg btn-outline-success w-100',
             ],
             'options'    => [
-                'label' => 'Sign up',
+                'label'                => 'Sign up',
+                FormRow::WRAPPER_CLASS => 'col-12',
             ],
         ], ['priority' => -10 ** 9]);
     }

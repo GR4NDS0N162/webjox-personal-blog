@@ -19,6 +19,8 @@ class SignInForm extends Form
     {
         parent::init();
 
+        $this->setAttribute('class', 'row g-3');
+
         $this->add([
             'name'       => 'email',
             'type'       => Email::class,
@@ -34,6 +36,7 @@ class SignInForm extends Form
                     'class' => 'form-label',
                 ],
                 FormRow::FLOATING_ENABLED => true,
+                FormRow::WRAPPER_CLASS    => 'col-12',
             ],
         ]);
 
@@ -52,6 +55,7 @@ class SignInForm extends Form
                     'class' => 'form-label',
                 ],
                 FormRow::FLOATING_ENABLED => true,
+                FormRow::WRAPPER_CLASS    => 'col-12',
             ],
         ]);
 
@@ -63,7 +67,8 @@ class SignInForm extends Form
                 'class' => 'btn btn-lg btn-outline-primary w-100',
             ],
             'options'    => [
-                'label' => 'Sign in',
+                'label'                => 'Sign in',
+                FormRow::WRAPPER_CLASS => 'col-12',
             ],
         ], ['priority' => -10 ** 9]);
     }
