@@ -8,5 +8,5 @@ use Application\Model\Entity\User;
 
 interface UserCommandInterface
 {
-    public function insertUser(User $user): int;
+    public function insertUser(User $user): ?int;
 }
