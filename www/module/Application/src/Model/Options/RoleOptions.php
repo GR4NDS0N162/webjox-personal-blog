@@ -8,18 +8,9 @@ use Application\Model\Repository\RoleRepositoryInterface;
 
 class RoleOptions
 {
-    /**
-     * @var RoleRepositoryInterface
-     */
-    private RoleRepositoryInterface $roleRepository;
-
-    /**
-     * @param RoleRepositoryInterface $roleRepository
-     */
-    public function __construct(RoleRepositoryInterface $roleRepository)
-    {
-        $this->roleRepository = $roleRepository;
-    }
+    public function __construct(
+        private RoleRepositoryInterface $roleRepository,
+    ) {}
 
     /**
      * @return string[]

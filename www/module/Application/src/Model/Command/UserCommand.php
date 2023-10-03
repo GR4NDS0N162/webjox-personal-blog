@@ -12,17 +12,10 @@ use Laminas\Db\Sql\Insert;
 
 class UserCommand implements UserCommandInterface
 {
-    private AdapterInterface $db;
-
-    private UserRepositoryInterface $userRepository;
-
     public function __construct(
-        AdapterInterface $db,
-        UserRepositoryInterface $userRepository,
-    ) {
-        $this->db = $db;
-        $this->userRepository = $userRepository;
-    }
+        private AdapterInterface $db,
+        private UserRepositoryInterface $userRepository,
+    ) {}
 
     public function insertUser(User $user): ?int
     {

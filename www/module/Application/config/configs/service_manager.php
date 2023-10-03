@@ -13,10 +13,8 @@ use Application\Model\Repository\RoleRepository;
 use Application\Model\Repository\RoleRepositoryInterface;
 use Application\Model\Repository\UserRepository;
 use Application\Model\Repository\UserRepositoryInterface;
-use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use Psr\Container\ContainerInterface;
 
 return [
     'aliases'            => [
@@ -27,17 +25,8 @@ return [
     'factories'          => [
         User::class           => InvokableFactory::class,
         Role::class           => InvokableFactory::class,
-        UserCommand::class    => function (ContainerInterface $container, $requestedName, ?array $options = null) {
-            return new $requestedName(
-                $container->get(AdapterInterface::class),
-                $container->get(UserRepositoryInterface::class),
-            );
-        },
-        RoleOptions::class    => function (ContainerInterface $container, $requestedName, ?array $options = null) {
-            return new $requestedName(
-                $container->get(RoleRepositoryInterface::class),
-            );
-        },
+        UserCommand::class    => ReflectionBasedAbstractFactory::class,
+        RoleOptions::class    => ReflectionBasedAbstractFactory::class,
         RoleRepository::class => ReflectionBasedAbstractFactory::class,
         UserRepository::class => ReflectionBasedAbstractFactory::class,
     ],
