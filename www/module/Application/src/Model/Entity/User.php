@@ -7,6 +7,8 @@ namespace Application\Model\Entity;
 use Laminas\Hydrator\ClassMethodsHydrator;
 use Laminas\Hydrator\HydratorAwareInterface;
 use Laminas\Hydrator\HydratorInterface;
+use Laminas\Hydrator\Strategy\NullableStrategy;
+use Laminas\Hydrator\Strategy\ScalarTypeStrategy;
 use Laminas\InputFilter\InputFilter;
 use Laminas\InputFilter\InputFilterAwareInterface;
 use Laminas\InputFilter\InputFilterInterface;
@@ -107,7 +109,12 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
             return $this->hydrator;
         }
 
-        $this->hydrator = new ClassMethodsHydrator(false);
+        $this->hydrator = new ClassMethodsHydrator(true, true);
+
+        $this->hydrator->addStrategy('id', new NullableStrategy(ScalarTypeStrategy::createToInt(), true));
+        $this->hydrator->addStrategy('email', new NullableStrategy(ScalarTypeStrategy::createToString(), true));
+        $this->hydrator->addStrategy('password', new NullableStrategy(ScalarTypeStrategy::createToString(), true));
+        $this->hydrator->addStrategy('role_id', new NullableStrategy(ScalarTypeStrategy::createToInt(), true));
 
         return $this->hydrator;
     }
