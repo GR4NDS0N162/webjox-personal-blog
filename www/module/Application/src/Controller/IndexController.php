@@ -12,7 +12,10 @@ use Application\Model\Repository\UserRepositoryInterface;
 use Laminas\Form\FormElementManager;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\ServiceManager\ServiceManager;
 use Laminas\View\Model\ViewModel;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class IndexController extends AbstractActionController
 {
@@ -22,6 +25,7 @@ class IndexController extends AbstractActionController
 
     public function __construct(
         private FormElementManager $formElementManager,
+        private ServiceManager $serviceManager,
         private UserRepositoryInterface $userRepository,
         private UserCommandInterface $userCommand,
     ) {
@@ -61,6 +65,10 @@ class IndexController extends AbstractActionController
         return $this->redirect()->toRoute('home'); // Should be changed
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function signUpAction(): Response
     {
         $request = $this->getRequest();
@@ -75,12 +83,14 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
-        $user = $form->get('user')->getObject();
+        $data = $form->getData();
+
+        $user = $this->serviceManager->get(User::class);
         assert($user instanceof User);
 
-        $passwordCheck = $form->get('password_check')->getValue();
+        $user->getHydrator()->hydrate($data['user'], $user);
 
-        if (strcmp($user->getPassword(), $passwordCheck) != 0) {
+        if (strcmp($user->getPassword(), $data['password_check']) != 0) {
             return $this->redirect()->toRoute('home');
         }
 
