@@ -79,6 +79,20 @@ class PostController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return $this->redirect()->toRoute('post');
+        }
+
+        $form = $this->postForm;
+
+        $form->setData($request->getPost());
+        if (!$form->isValid()) {
+            return $this->redirect()->toRoute('post');
+        }
+
+        $data = $form->getData();
+
         return $this->redirect()->toRoute('post');
     }
 }
