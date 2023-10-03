@@ -22,6 +22,19 @@ class CategoryForm extends Form
         $this->setAttribute('class', 'row g-3');
 
         $this->add([
+            'name'       => 'add',
+            'type'       => Button::class,
+            'attributes' => [
+                'class' => 'btn btn-lg btn-outline-primary w-100',
+                'id'    => 'category_form-add',
+            ],
+            'options'    => [
+                'label'                => 'Add',
+                FormRow::WRAPPER_CLASS => 'col-12',
+            ],
+        ], ['priority' => 10 ** 9]);
+
+        $this->add([
             'name'       => 'list',
             'type'       => Collection::class,
             'attributes' => [
