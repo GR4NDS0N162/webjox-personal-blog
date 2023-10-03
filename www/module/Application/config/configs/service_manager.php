@@ -6,12 +6,14 @@ namespace Application;
 
 use Application\Model\Command\UserCommand;
 use Application\Model\Command\UserCommandInterface;
+use Application\Model\Entity\User;
 use Application\Model\Options\RoleOptions;
 use Application\Model\Repository\RoleRepository;
 use Application\Model\Repository\RoleRepositoryInterface;
 use Application\Model\Repository\UserRepository;
 use Application\Model\Repository\UserRepositoryInterface;
 use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
 use Psr\Container\ContainerInterface;
 
 return [
@@ -21,6 +23,7 @@ return [
         UserRepositoryInterface::class => UserRepository::class,
     ],
     'factories'          => [
+        User::class           => ReflectionBasedAbstractFactory::class,
         UserCommand::class    => function (ContainerInterface $container, $requestedName, ?array $options = null) {
             return new $requestedName(
                 $container->get(AdapterInterface::class),

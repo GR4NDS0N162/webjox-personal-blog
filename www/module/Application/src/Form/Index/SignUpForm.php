@@ -14,12 +14,6 @@ use Laminas\Form\Form;
 
 class SignUpForm extends Form
 {
-    public function __construct(
-        private RoleOptions $roleOptions,
-    ) {
-        parent::__construct();
-    }
-
     /**
      * @inheritDoc
      */
@@ -30,62 +24,13 @@ class SignUpForm extends Form
         $this->setAttribute('class', 'row g-3');
 
         $this->add([
-            'name'       => 'email',
-            'type'       => Email::class,
+            'name'       => 'user',
+            'type'       => UserFieldset::class,
             'attributes' => [
-                'required'    => 'required',
-                'class'       => 'form-control',
-                'id'          => 'sign-up-form-email',
-                'placeholder' => '',
+                'id' => 'sign_up_form-user',
             ],
             'options'    => [
-                'label'                   => 'E-mail',
-                'label_attributes'        => [
-                    'class' => 'form-label',
-                ],
-                FormRow::FLOATING_ENABLED => true,
-                FormRow::WRAPPER_CLASS    => 'col-12',
-            ],
-        ]);
-
-        $this->add([
-            'name'       => 'role_id',
-            'type'       => Select::class,
-            'attributes' => [
-                'required' => 'required',
-                'class'    => 'form-select',
-                'id'       => 'sign_up_form-role_id',
-            ],
-            'options'    => [
-                'label'                   => 'Role',
-                'label_attributes'        => [
-                    'class' => 'form-label',
-                ],
-                FormRow::FLOATING_ENABLED => true,
-                FormRow::WRAPPER_CLASS    => 'col-12',
-                'options'                 => $this->roleOptions->getOptions(),
-            ],
-        ]);
-
-        $this->add([
-            'name'       => 'password',
-            'type'       => Password::class,
-            'attributes' => [
-                'required'     => 'required',
-                'autocomplete' => 'new-password',
-                'minlength'    => 8,
-                'maxlength'    => 32,
-                'class'        => 'form-control',
-                'id'           => 'sign_up_form-password',
-                'placeholder'  => '',
-            ],
-            'options'    => [
-                'label'                   => 'Password',
-                'label_attributes'        => [
-                    'class' => 'form-label',
-                ],
-                FormRow::FLOATING_ENABLED => true,
-                FormRow::WRAPPER_CLASS    => 'col-12',
+                FormRow::WRAPPER_CLASS => 'col-12',
             ],
         ]);
 
