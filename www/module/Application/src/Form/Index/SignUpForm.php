@@ -55,12 +55,12 @@ class SignUpForm extends Form
         ]);
 
         $this->add([
-            'name'       => 'role-id',
+            'name'       => 'role_id',
             'type'       => Select::class,
             'attributes' => [
                 'required' => 'required',
                 'class'    => 'form-select',
-                'id'       => 'sign-up-form-role-id',
+                'id'       => 'sign_up_form-role_id',
             ],
             'options'    => [
                 'label'                   => 'Role',
@@ -74,7 +74,7 @@ class SignUpForm extends Form
         ]);
 
         $this->add([
-            'name'       => 'new-password',
+            'name'       => 'password',
             'type'       => Password::class,
             'attributes' => [
                 'required'     => 'required',
@@ -82,7 +82,7 @@ class SignUpForm extends Form
                 'minlength'    => 8,
                 'maxlength'    => 32,
                 'class'        => 'form-control',
-                'id'           => 'sign-up-form-new-password',
+                'id'           => 'sign_up_form-password',
                 'placeholder'  => '',
             ],
             'options'    => [
@@ -96,12 +96,12 @@ class SignUpForm extends Form
         ]);
 
         $this->add([
-            'name'       => 'password-check',
+            'name'       => 'password_check',
             'type'       => Password::class,
             'attributes' => [
                 'required'    => 'required',
                 'class'       => 'form-control',
-                'id'          => 'sign-up-form-password-check',
+                'id'          => 'sign_up_form-password_check',
                 'placeholder' => '',
             ],
             'options'    => [
@@ -120,6 +120,7 @@ class SignUpForm extends Form
             'attributes' => [
                 'type'  => 'submit',
                 'class' => 'btn btn-lg btn-outline-success w-100',
+                'id'    => 'sign_up_form-submit',
             ],
             'options'    => [
                 'label'                => 'Sign up',
