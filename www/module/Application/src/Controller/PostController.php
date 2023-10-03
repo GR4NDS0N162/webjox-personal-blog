@@ -35,17 +35,17 @@ class PostController extends AbstractActionController
     public function getAction(): JsonModel
     {
         $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
+        $data = ['list' => []];
         if (!is_int($userId)) {
-            return new JsonModel();
+            return new JsonModel($data);
         }
 
         $request = $this->getRequest();
         if (!$request->isGet()) {
-            return new JsonModel();
+            return new JsonModel($data);
         }
 
         $posts = $this->postRepository->findAll();
-        $data = ['list' => []];
         foreach ($posts as $post) {
             $data['list'][] = $post->getHydrator()->extract($post);
         }
