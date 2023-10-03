@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Application\Controller\CategoryController;
 use Application\Controller\IndexController;
 use Laminas\Router\Http\Literal;
 
 return [
     'routes' => [
-        'home' => [
+        'home'     => [
             'type'          => Literal::class,
             'options'       => [
                 'route'    => '/',
@@ -37,6 +38,16 @@ return [
                             'action' => 'signup',
                         ],
                     ],
+                ],
+            ],
+        ],
+        'category' => [
+            'type'    => Literal::class,
+            'options' => [
+                'route'    => '/category',
+                'defaults' => [
+                    'controller' => CategoryController::class,
+                    'action'     => 'index',
                 ],
             ],
         ],
