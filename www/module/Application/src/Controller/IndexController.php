@@ -64,9 +64,21 @@ class IndexController extends AbstractActionController
 
         $data = $form->getData();
 
-        // TODO: Authorize the user.
+        $user = $this->serviceManager->get(User::class);
+        assert($user instanceof User);
+        $user->getHydrator()->hydrate($data['user'], $user);
 
-        return $this->redirect()->toRoute('home'); // Should be changed
+        $foundUser = $this->userRepository->findByEmail($user->getEmail());
+        if (is_null($foundUser)) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        if (strcmp($user->getPassword(), $foundUser->getPassword()) != 0) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        $this->sessionContainer->offsetSet(self::USER_ID_KEY, $foundUser->getId());
+        return $this->redirect()->toRoute('category');
     }
 
     /**
@@ -91,7 +103,6 @@ class IndexController extends AbstractActionController
 
         $user = $this->serviceManager->get(User::class);
         assert($user instanceof User);
-
         $user->getHydrator()->hydrate($data['user'], $user);
 
         if (strcmp($user->getPassword(), $data['password_check']) != 0) {
@@ -104,7 +115,7 @@ class IndexController extends AbstractActionController
         }
 
         $user->setId($this->userCommand->insertUser($user));
-
-        return $this->redirect()->toRoute('home');
+        $this->sessionContainer->offsetSet(self::USER_ID_KEY, $user->getId());
+        return $this->redirect()->toRoute('category');
     }
 }
