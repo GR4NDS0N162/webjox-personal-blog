@@ -6,6 +6,8 @@ namespace Application;
 
 use Application\Model\Command\CategoryCommand;
 use Application\Model\Command\CategoryCommandInterface;
+use Application\Model\Command\PostCommand;
+use Application\Model\Command\PostCommandInterface;
 use Application\Model\Command\UserCommand;
 use Application\Model\Command\UserCommandInterface;
 use Application\Model\Entity\Category;
@@ -26,6 +28,7 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 return [
     'aliases'            => [
         UserCommandInterface::class        => UserCommand::class,
+        PostCommandInterface::class        => PostCommand::class,
         CategoryCommandInterface::class    => CategoryCommand::class,
         RoleRepositoryInterface::class     => RoleRepository::class,
         UserRepositoryInterface::class     => UserRepository::class,
@@ -38,6 +41,7 @@ return [
         Role::class               => InvokableFactory::class,
         UserCommand::class        => ReflectionBasedAbstractFactory::class,
         CategoryCommand::class    => ReflectionBasedAbstractFactory::class,
+        PostCommand::class        => ReflectionBasedAbstractFactory::class,
         RoleOptions::class        => ReflectionBasedAbstractFactory::class,
         RoleRepository::class     => ReflectionBasedAbstractFactory::class,
         UserRepository::class     => ReflectionBasedAbstractFactory::class,
