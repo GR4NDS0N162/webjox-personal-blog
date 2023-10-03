@@ -14,6 +14,8 @@ use Application\Model\Entity\User;
 use Application\Model\Options\RoleOptions;
 use Application\Model\Repository\CategoryRepository;
 use Application\Model\Repository\CategoryRepositoryInterface;
+use Application\Model\Repository\PostRepository;
+use Application\Model\Repository\PostRepositoryInterface;
 use Application\Model\Repository\RoleRepository;
 use Application\Model\Repository\RoleRepositoryInterface;
 use Application\Model\Repository\UserRepository;
@@ -27,6 +29,7 @@ return [
         CategoryCommandInterface::class    => CategoryCommand::class,
         RoleRepositoryInterface::class     => RoleRepository::class,
         UserRepositoryInterface::class     => UserRepository::class,
+        PostRepositoryInterface::class     => PostRepository::class,
         CategoryRepositoryInterface::class => CategoryRepository::class,
     ],
     'factories'          => [
@@ -38,6 +41,7 @@ return [
         RoleOptions::class        => ReflectionBasedAbstractFactory::class,
         RoleRepository::class     => ReflectionBasedAbstractFactory::class,
         UserRepository::class     => ReflectionBasedAbstractFactory::class,
+        PostRepository::class     => ReflectionBasedAbstractFactory::class,
         CategoryRepository::class => ReflectionBasedAbstractFactory::class,
     ],
     'services'           => [
