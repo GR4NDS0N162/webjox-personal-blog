@@ -65,12 +65,24 @@ return [
             ],
         ],
         'post'     => [
-            'type'    => Literal::class,
-            'options' => [
+            'type'          => Literal::class,
+            'options'       => [
                 'route'    => '/post',
                 'defaults' => [
                     'controller' => PostController::class,
                     'action'     => 'index',
+                ],
+            ],
+            'may_terminate' => true,
+            'child_routes'  => [
+                'get' => [
+                    'type'    => Literal::class,
+                    'options' => [
+                        'route'    => '/get',
+                        'defaults' => [
+                            'action' => 'get',
+                        ],
+                    ],
                 ],
             ],
         ],
