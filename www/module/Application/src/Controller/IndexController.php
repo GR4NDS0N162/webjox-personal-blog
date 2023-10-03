@@ -13,12 +13,15 @@ use Laminas\Form\FormElementManager;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\ServiceManager\ServiceManager;
+use Laminas\Session\Container as SessionContainer;
 use Laminas\View\Model\ViewModel;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 class IndexController extends AbstractActionController
 {
+    const USER_ID_KEY = 'user_id';
+
     private SignInForm $signInForm;
 
     private SignUpForm $signUpForm;
@@ -28,6 +31,7 @@ class IndexController extends AbstractActionController
         private ServiceManager $serviceManager,
         private UserRepositoryInterface $userRepository,
         private UserCommandInterface $userCommand,
+        private SessionContainer $sessionContainer,
     ) {
         $this->signInForm = $this->formElementManager->get(SignInForm::class);
         $this->signUpForm = $this->formElementManager->get(SignUpForm::class);
