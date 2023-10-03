@@ -8,6 +8,10 @@ use Laminas\Form\ElementInterface;
 
 class FormCollection extends \Laminas\Form\View\Helper\FormCollection
 {
+    public function __construct() {
+        $this->setTemplateWrapper('<span data-template="%s" class="d-none"></span>');
+    }
+
     /**
      * @inheritDoc
      */
