@@ -4,21 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Model\Entity;
 
-use Laminas\Hydrator\ClassMethodsHydrator;
-use Laminas\Hydrator\HydratorAwareInterface;
-use Laminas\Hydrator\HydratorInterface;
-use Laminas\Hydrator\Strategy\NullableStrategy;
-use Laminas\Hydrator\Strategy\ScalarTypeStrategy;
-use Laminas\InputFilter\InputFilter;
-use Laminas\InputFilter\InputFilterAwareInterface;
-use Laminas\InputFilter\InputFilterInterface;
-
-class User implements InputFilterAwareInterface, HydratorAwareInterface
+class User
 {
-    private InputFilterInterface $inputFilter;
-
-    private HydratorInterface $hydrator;
-
     public function __construct(
         private ?int $id = null,
         private ?string $email = null,
@@ -31,7 +18,7 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
         return $this->id;
     }
 
-    public function setId(int $id): User
+    public function setId(?int $id): User
     {
         $this->id = $id;
         return $this;
@@ -42,7 +29,7 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): User
+    public function setEmail(?string $email): User
     {
         $this->email = $email;
         return $this;
@@ -53,7 +40,7 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): User
+    public function setPassword(?string $password): User
     {
         $this->password = $password;
         return $this;
@@ -64,58 +51,9 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
         return $this->roleId;
     }
 
-    public function setRoleId(int $roleId): User
+    public function setRoleId(?int $roleId): User
     {
         $this->roleId = $roleId;
         return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setInputFilter(InputFilterInterface $inputFilter): void
-    {
-        $this->inputFilter = $inputFilter;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getInputFilter(): InputFilterInterface
-    {
-        if (!empty($this->inputFilter)) {
-            return $this->inputFilter;
-        }
-
-        $this->inputFilter = new InputFilter();
-
-        return $this->inputFilter;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setHydrator(HydratorInterface $hydrator): void
-    {
-        $this->hydrator = $hydrator;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHydrator(): ?HydratorInterface
-    {
-        if (!empty($this->hydrator)) {
-            return $this->hydrator;
-        }
-
-        $this->hydrator = new ClassMethodsHydrator(true, true);
-
-        $this->hydrator->addStrategy('id', new NullableStrategy(ScalarTypeStrategy::createToInt(), true));
-        $this->hydrator->addStrategy('email', new NullableStrategy(ScalarTypeStrategy::createToString(), true));
-        $this->hydrator->addStrategy('password', new NullableStrategy(ScalarTypeStrategy::createToString(), true));
-        $this->hydrator->addStrategy('role_id', new NullableStrategy(ScalarTypeStrategy::createToInt(), true));
-
-        return $this->hydrator;
     }
 }
