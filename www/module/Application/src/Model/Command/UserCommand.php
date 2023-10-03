@@ -20,7 +20,7 @@ class UserCommand implements UserCommandInterface
     public function insertUser(User $user): ?int
     {
         $foundUser = $this->userRepository->findByEmail($user->getEmail());
-        if ($foundUser) {
+        if (!is_null($foundUser)) {
             return null;
         }
 

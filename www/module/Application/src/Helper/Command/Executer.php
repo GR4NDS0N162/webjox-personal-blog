@@ -11,11 +11,11 @@ use Laminas\Db\Sql\Sql;
 class Executer
 {
     public static function executeSql(
-        PreparableSqlInterface $preparable,
-        AdapterInterface $db,
+        PreparableSqlInterface $preparableSql,
+        AdapterInterface $adapter,
     ): mixed {
-        $sql = new Sql($db);
-        $statement = $sql->prepareStatementForSqlObject($preparable);
+        $sql = new Sql($adapter);
+        $statement = $sql->prepareStatementForSqlObject($preparableSql);
         $result = $statement->execute();
 
         return $result->getGeneratedValue();
