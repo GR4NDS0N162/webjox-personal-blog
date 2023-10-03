@@ -9,15 +9,10 @@ use Laminas\Db\Sql\Select;
 
 class RoleRepository implements RoleRepositoryInterface
 {
-    private AdapterInterface $db;
-
-    private Role $prototype;
-
-    public function __construct(AdapterInterface $db)
-    {
-        $this->db = $db;
-        $this->prototype = new Role();
-    }
+    public function __construct(
+        private AdapterInterface $db,
+        private Role $prototype,
+    ) {}
 
     /**
      * @inheritDoc

@@ -36,11 +36,7 @@ return [
                 $container->get(RoleRepositoryInterface::class),
             );
         },
-        RoleRepository::class => function (ContainerInterface $container, $requestedName, ?array $options = null) {
-            return new $requestedName(
-                $container->get(AdapterInterface::class),
-            );
-        },
+        RoleRepository::class => ReflectionBasedAbstractFactory::class,
         UserRepository::class => ReflectionBasedAbstractFactory::class,
     ],
     'services'           => [
