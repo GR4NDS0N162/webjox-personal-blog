@@ -64,7 +64,7 @@ class IndexController extends AbstractActionController
 
         $data = $form->getData();
 
-        $user = $this->serviceManager->get(User::class);
+        $user = $this->serviceManager->build(User::class);
         assert($user instanceof User);
         $user->getHydrator()->hydrate($data['user'], $user);
 
@@ -101,7 +101,7 @@ class IndexController extends AbstractActionController
 
         $data = $form->getData();
 
-        $user = $this->serviceManager->get(User::class);
+        $user = $this->serviceManager->build(User::class);
         assert($user instanceof User);
         $user->getHydrator()->hydrate($data['user'], $user);
 

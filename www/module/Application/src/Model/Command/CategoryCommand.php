@@ -29,7 +29,7 @@ class CategoryCommand implements CategoryCommandInterface
 
         $newIds = [];
         foreach ($new as $category) {
-            $oldIds[] = $category->getId();
+            $newIds[] = $category->getId();
         }
 
         foreach ($old as $category) {
