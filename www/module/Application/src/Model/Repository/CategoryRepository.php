@@ -47,4 +47,24 @@ class CategoryRepository implements CategoryRepositoryInterface
 
         return $object;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function findByPostId(int $postId): array
+    {
+        $select = new Select(['c' => 'categories']);
+        $select->join(
+            ['pc' => 'posts_categories'],
+            'pc.category_id = c.id',
+            [],
+        );
+        $select->where(['pc.post_id = ?' => $postId]);
+        $select->columns([
+            'id'   => 'c.id',
+            'name' => 'c.name',
+        ], false);
+
+        return Extracter::extractValues($select, $this->db, $this->prototype);
+    }
 }

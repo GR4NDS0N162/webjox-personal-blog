@@ -19,4 +19,11 @@ interface CategoryRepositoryInterface
      * @return Category|null
      */
     public function findById(int $id): ?Category;
+
+    /**
+     * @param int $postId
+     *
+     * @return Category[]
+     */
+    public function findByPostId(int $postId): array;
 }
