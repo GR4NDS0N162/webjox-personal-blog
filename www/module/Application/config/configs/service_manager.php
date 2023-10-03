@@ -6,6 +6,7 @@ namespace Application;
 
 use Application\Model\Command\UserCommand;
 use Application\Model\Command\UserCommandInterface;
+use Application\Model\Entity\Role;
 use Application\Model\Entity\User;
 use Application\Model\Options\RoleOptions;
 use Application\Model\Repository\RoleRepository;
@@ -25,6 +26,7 @@ return [
     ],
     'factories'          => [
         User::class           => InvokableFactory::class,
+        Role::class           => InvokableFactory::class,
         UserCommand::class    => function (ContainerInterface $container, $requestedName, ?array $options = null) {
             return new $requestedName(
                 $container->get(AdapterInterface::class),
