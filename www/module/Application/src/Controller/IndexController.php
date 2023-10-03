@@ -96,8 +96,8 @@ class IndexController extends AbstractActionController
 
         $user = new User();
         $user->setEmail($data['email']);
-        $user->setPassword($data['new-password']);
-        $user->setRoleId((int)$data['role-id']);
+        $user->setPassword($data['password']);
+        $user->setRoleId((int)$data['role_id']);
 
         $user->setId($this->userCommand->insertUser($user));
 
