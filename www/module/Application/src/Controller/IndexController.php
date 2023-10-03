@@ -16,38 +16,28 @@ use Laminas\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
+    private SignInForm $signInForm;
+
+    private SignUpForm $signUpForm;
+
     public function __construct(
         private FormElementManager $formElementManager,
         private UserRepositoryInterface $userRepository,
         private UserCommandInterface $userCommand,
-    ) {}
+    ) {
+        $this->signInForm = $this->formElementManager->get(SignInForm::class);
+        $this->signUpForm = $this->formElementManager->get(SignUpForm::class);
+    }
 
     public function indexAction(): ViewModel
     {
-        $signInForm = $this->getSignInForm();
-        $signUpForm = $this->getSignUpForm();
-
-        $signInForm->setAttribute('action', $this->url()->fromRoute('home/signin'));
-        $signUpForm->setAttribute('action', $this->url()->fromRoute('home/signup'));
+        $this->signInForm->setAttribute('action', $this->url()->fromRoute('home/signin'));
+        $this->signUpForm->setAttribute('action', $this->url()->fromRoute('home/signup'));
 
         return new ViewModel([
-            'signInForm' => $signInForm,
-            'signUpForm' => $signUpForm,
+            'signInForm' => $this->signInForm,
+            'signUpForm' => $this->signUpForm,
         ]);
-    }
-
-    private function getSignInForm(): SignInForm
-    {
-        $signInForm = $this->formElementManager->get(SignInForm::class);
-        assert($signInForm instanceof SignInForm);
-        return $signInForm;
-    }
-
-    private function getSignUpForm(): SignUpForm
-    {
-        $signUpForm = $this->formElementManager->get(SignUpForm::class);
-        assert($signUpForm instanceof SignUpForm);
-        return $signUpForm;
     }
 
     public function signInAction(): Response
@@ -57,7 +47,8 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
-        $form = $this->getSignInForm();
+        $form = $this->signInForm;
+
         $form->setData($request->getPost());
         if (!$form->isValid()) {
             return $this->redirect()->toRoute('home');
@@ -77,7 +68,8 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
-        $form = $this->getSignUpForm();
+        $form = $this->signUpForm;
+
         $form->setData($request->getPost());
         if (!$form->isValid()) {
             return $this->redirect()->toRoute('home');
