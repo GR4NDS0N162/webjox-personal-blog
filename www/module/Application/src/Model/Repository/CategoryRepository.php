@@ -27,12 +27,7 @@ class CategoryRepository implements CategoryRepositoryInterface
             'name' => 'c.name',
         ], false);
 
-        return Extracter::extractValues(
-            $select,
-            $this->db,
-            $this->prototype->getHydrator(),
-            $this->prototype
-        );
+        return Extracter::extractValues($select, $this->db, $this->prototype);
     }
 
     /**
@@ -47,13 +42,8 @@ class CategoryRepository implements CategoryRepositoryInterface
         ], false);
         $select->where(['c.id = ?' => $id]);
 
-        $object = Extracter::extractValue(
-            $select,
-            $this->db,
-            $this->prototype->getHydrator(),
-            $this->prototype
-        );
-        assert($object instanceof Category);
+        $object = Extracter::extractValue($select, $this->db, $this->prototype);
+        assert(is_null($object) || $object instanceof Category);
 
         return $object;
     }

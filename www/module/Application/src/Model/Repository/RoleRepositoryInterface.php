@@ -14,7 +14,7 @@ interface RoleRepositoryInterface
     /**
      * @param int $id
      *
-     * @return Role
+     * @return Role|null
      */
-    public function findById(int $id): Role;
+    public function findById(int $id): ?Role;
 }

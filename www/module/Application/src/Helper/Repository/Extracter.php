@@ -7,72 +7,55 @@ use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\ResultSet\HydratingResultSet;
 use Laminas\Db\Sql\PreparableSqlInterface;
 use Laminas\Db\Sql\Sql;
-use Laminas\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorAwareInterface;
 use Laminas\Hydrator\Strategy\CollectionStrategy;
 use RuntimeException;
-use stdClass;
 
 class Extracter
 {
-    /**
-     * @param PreparableSqlInterface $preparable
-     * @param AdapterInterface       $db
-     * @param HydratorInterface      $hydrator
-     * @param object|null            $prototype
-     *
-     * @return array|object[]
-     */
     public static function extractValues(
-        PreparableSqlInterface $preparable,
-        AdapterInterface $db,
-        HydratorInterface $hydrator,
-        object $prototype = null,
+        PreparableSqlInterface $preparableSql,
+        AdapterInterface $adapter,
+        HydratorAwareInterface $hydratorAwarePrototype,
     ): array {
-        $sql = new Sql($db);
-        $statement = $sql->prepareStatementForSqlObject($preparable);
-        $result = $statement->execute();
-
-        if (!$result instanceof ResultInterface || !$result->isQueryResult()) {
-            return [];
-        }
-
-        $resultSet = new HydratingResultSet($hydrator, $prototype);
-        $resultSet->initialize($result);
+        $resultSet = self::getResultSet($preparableSql, $adapter, $hydratorAwarePrototype);
 
         $strategy = new CollectionStrategy(
-            $hydrator,
-            get_class($prototype) ?: stdClass::class
+            $hydratorAwarePrototype->getHydrator(),
+            get_class($hydratorAwarePrototype)
         );
+
         return $strategy->hydrate($resultSet->toArray());
     }
 
-    /**
-     * @param PreparableSqlInterface $preparable
-     * @param AdapterInterface       $db
-     * @param HydratorInterface|null $hydrator
-     * @param object|null            $prototype
-     *
-     * @return object|null
-     * @throws RuntimeException
-     */
     public static function extractValue(
-        PreparableSqlInterface $preparable,
-        AdapterInterface $db,
-        HydratorInterface $hydrator = null,
-        object $prototype = null,
+        PreparableSqlInterface $preparableSql,
+        AdapterInterface $adapter,
+        HydratorAwareInterface $hydratorAwarePrototype,
     ): ?object {
-        $sql = new Sql($db);
-        $statement = $sql->prepareStatementForSqlObject($preparable);
+        $resultSet = self::getResultSet($preparableSql, $adapter, $hydratorAwarePrototype);
+
+        return $resultSet->current();
+    }
+
+    private static function getResultSet(
+        PreparableSqlInterface $preparableSql,
+        AdapterInterface $adapter,
+        HydratorAwareInterface $hydratorAwarePrototype,
+    ): HydratingResultSet {
+        $sql = new Sql($adapter);
+        $statement = $sql->prepareStatementForSqlObject($preparableSql);
         $result = $statement->execute();
 
         if (!$result instanceof ResultInterface || !$result->isQueryResult()) {
             throw new RuntimeException(
-                'Failed retrieving the object; unknown database error.'
+                'Failed retrieving the object; Unknown database error.'
             );
         }
 
-        $resultSet = new HydratingResultSet($hydrator, $prototype);
+        $resultSet = new HydratingResultSet($hydratorAwarePrototype->getHydrator(), $hydratorAwarePrototype);
         $resultSet->initialize($result);
-        return $resultSet->current();
+
+        return $resultSet;
     }
 }

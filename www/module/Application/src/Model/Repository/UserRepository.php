@@ -30,13 +30,8 @@ class UserRepository implements UserRepositoryInterface
         ], false);
         $select->where(['u.id = ?' => $id]);
 
-        /** @var User|null $object */
-        $object = Extracter::extractValue(
-            $select,
-            $this->db,
-            $this->prototype->getHydrator(),
-            $this->prototype
-        );
+        $object = Extracter::extractValue($select, $this->db, $this->prototype);
+        assert(is_null($object) || $object instanceof User);
 
         return $object;
     }
@@ -55,13 +50,8 @@ class UserRepository implements UserRepositoryInterface
         ], false);
         $select->where(['u.email = ?' => $email]);
 
-        /** @var User|null $object */
-        $object = Extracter::extractValue(
-            $select,
-            $this->db,
-            $this->prototype->getHydrator(),
-            $this->prototype
-        );
+        $object = Extracter::extractValue($select, $this->db, $this->prototype);
+        assert(is_null($object) || $object instanceof User);
 
         return $object;
     }
@@ -79,11 +69,6 @@ class UserRepository implements UserRepositoryInterface
             'role_id'  => 'u.role_id',
         ], false);
 
-        return Extracter::extractValues(
-            $select,
-            $this->db,
-            $this->prototype->getHydrator(),
-            $this->prototype
-        );
+        return Extracter::extractValues($select, $this->db, $this->prototype);
     }
 }

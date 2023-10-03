@@ -26,18 +26,13 @@ class RoleRepository implements RoleRepositoryInterface
         ], false);
         $select->order(['r.name ASC']);
 
-        return Extracter::extractValues(
-            $select,
-            $this->db,
-            $this->prototype->getHydrator(),
-            $this->prototype
-        );
+        return Extracter::extractValues($select, $this->db, $this->prototype);
     }
 
     /**
      * @inheritDoc
      */
-    public function findById(int $id): Role
+    public function findById(int $id): ?Role
     {
         $select = new Select(['r' => 'roles']);
         $select->columns([
@@ -46,13 +41,8 @@ class RoleRepository implements RoleRepositoryInterface
         ], false);
         $select->where(['r.id = ?' => $id]);
 
-        /** @var Role $object */
-        $object = Extracter::extractValue(
-            $select,
-            $this->db,
-            $this->prototype->getHydrator(),
-            $this->prototype
-        );
+        $object = Extracter::extractValue($select, $this->db, $this->prototype);
+        assert(is_null($object) || $object instanceof Role);
 
         return $object;
     }
