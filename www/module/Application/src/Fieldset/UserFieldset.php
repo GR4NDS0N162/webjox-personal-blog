@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Application\Form\Index;
+namespace Application\Fieldset;
 
 use Application\Model\Options\RoleOptions;
 use Application\View\Helper\FormRow;

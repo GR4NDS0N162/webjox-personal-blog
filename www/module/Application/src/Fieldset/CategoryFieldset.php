@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Application\Form\Category;
+namespace Application\Fieldset;
 
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Hidden;

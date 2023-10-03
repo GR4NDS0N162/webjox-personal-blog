@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Form\Category;
 
+use Application\Fieldset\CategoryFieldset;
 use Application\View\Helper\FormRow;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Collection;

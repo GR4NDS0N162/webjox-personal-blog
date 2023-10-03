@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Form\Index;
 
+use Application\Fieldset\UserFieldset;
 use Application\View\Helper\FormRow;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Password;

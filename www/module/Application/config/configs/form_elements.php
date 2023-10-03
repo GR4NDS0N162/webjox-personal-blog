@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Application\Fieldset\UserFieldset;
 use Application\Form\Index\SignUpForm;
-use Application\Form\Index\UserFieldset;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
 
 return [
