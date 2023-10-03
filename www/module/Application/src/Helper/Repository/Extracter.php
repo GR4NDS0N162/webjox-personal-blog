@@ -28,16 +28,6 @@ class Extracter
         return $strategy->hydrate($resultSet->toArray());
     }
 
-    public static function extractValue(
-        PreparableSqlInterface $preparableSql,
-        AdapterInterface $adapter,
-        HydratorAwareInterface $hydratorAwarePrototype,
-    ): ?object {
-        $resultSet = self::getResultSet($preparableSql, $adapter, $hydratorAwarePrototype);
-
-        return $resultSet->current();
-    }
-
     private static function getResultSet(
         PreparableSqlInterface $preparableSql,
         AdapterInterface $adapter,
@@ -57,5 +47,15 @@ class Extracter
         $resultSet->initialize($result);
 
         return $resultSet;
+    }
+
+    public static function extractValue(
+        PreparableSqlInterface $preparableSql,
+        AdapterInterface $adapter,
+        HydratorAwareInterface $hydratorAwarePrototype,
+    ): ?object {
+        $resultSet = self::getResultSet($preparableSql, $adapter, $hydratorAwarePrototype);
+
+        return $resultSet->current();
     }
 }

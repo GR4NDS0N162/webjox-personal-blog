@@ -6,6 +6,7 @@ namespace Application;
 
 use Application\Controller\CategoryController;
 use Application\Controller\IndexController;
+use Application\Controller\PostController;
 use Laminas\Router\Http\Literal;
 
 return [
@@ -60,6 +61,16 @@ return [
                             'action' => 'save',
                         ],
                     ],
+                ],
+            ],
+        ],
+        'post'     => [
+            'type'    => Literal::class,
+            'options' => [
+                'route'    => '/post',
+                'defaults' => [
+                    'controller' => PostController::class,
+                    'action'     => 'index',
                 ],
             ],
         ],
