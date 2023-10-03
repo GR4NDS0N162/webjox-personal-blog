@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Application\Controller\CategoryController;
 use Application\Controller\IndexController;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
 
 return [
     'factories' => [
-        IndexController::class => ReflectionBasedAbstractFactory::class,
+        CategoryController::class => ReflectionBasedAbstractFactory::class,
+        IndexController::class    => ReflectionBasedAbstractFactory::class,
     ],
 ];
