@@ -1,5 +1,12 @@
 <?php
 /**
- * @var Laminas\View\Renderer\PhpRenderer|Laminas\Form\View\HelperTrait $this
+ * @var PhpRenderer|HelperTrait $this
+ * @var CategoryForm            $categoryForm
  */
+
+use Application\Form\Category\CategoryForm;
+use Laminas\Form\View\HelperTrait;
+use Laminas\View\Renderer\PhpRenderer;
+
 ?>
+<?= $this->form()->render($categoryForm); ?>
