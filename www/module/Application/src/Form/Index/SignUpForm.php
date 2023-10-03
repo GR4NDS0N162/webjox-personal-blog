@@ -14,16 +14,10 @@ use Laminas\Form\Form;
 
 class SignUpForm extends Form
 {
-    private RoleOptions $roleOptions;
-
-    /**
-     * @param RoleOptions $roleOptions
-     */
-    public function __construct(RoleOptions $roleOptions)
-    {
+    public function __construct(
+        private RoleOptions $roleOptions,
+    ) {
         parent::__construct();
-
-        $this->roleOptions = $roleOptions;
     }
 
     /**

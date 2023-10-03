@@ -13,24 +13,23 @@ use Laminas\InputFilter\InputFilterInterface;
 
 class User implements InputFilterAwareInterface, HydratorAwareInterface
 {
-    private ?int $id;
-
-    private ?string $email;
-
-    private ?string $password;
-
-    private ?int $roleId;
-
     private InputFilterInterface $inputFilter;
 
     private HydratorInterface $hydrator;
+
+    public function __construct(
+        private ?int $id,
+        private ?string $email,
+        private ?string $password,
+        private ?int $roleId,
+    ) {}
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(?int $id): User
+    public function setId(int $id): User
     {
         $this->id = $id;
         return $this;
@@ -41,7 +40,7 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
         return $this->email;
     }
 
-    public function setEmail(?string $email): User
+    public function setEmail(string $email): User
     {
         $this->email = $email;
         return $this;
@@ -52,7 +51,7 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
         return $this->password;
     }
 
-    public function setPassword(?string $password): User
+    public function setPassword(string $password): User
     {
         $this->password = $password;
         return $this;
@@ -63,7 +62,7 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
         return $this->roleId;
     }
 
-    public function setRoleId(?int $roleId): User
+    public function setRoleId(int $roleId): User
     {
         $this->roleId = $roleId;
         return $this;
