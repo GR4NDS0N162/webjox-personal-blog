@@ -47,7 +47,10 @@ class CategoryForm extends Form
                 'should_create_template' => true,
                 'template_placeholder'   => '__index__',
                 'target_element'         => [
-                    'type' => CategoryFieldset::class,
+                    'type'    => CategoryFieldset::class,
+                    'options' => [
+                        FormRow::WRAPPER_CLASS => 'col-12 col-md-6 col-xl-4',
+                    ],
                 ],
                 FormRow::WRAPPER_CLASS   => 'col-12',
             ],
