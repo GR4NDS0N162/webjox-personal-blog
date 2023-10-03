@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Fieldset;
 
+use Application\Form\Category\CategoryForm;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Text;
@@ -38,7 +39,9 @@ class CategoryFieldset extends Fieldset
             'name'       => 'delete',
             'type'       => Button::class,
             'attributes' => [
-                'class' => 'btn btn-outline-danger',
+                'class'             => 'btn btn-outline-danger',
+                'onclick'           => 'delete_item(this)',
+                'data-container-id' => CategoryForm::CONTAINER_ID,
             ],
             'options'    => [
                 'label'         => '<svg width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><defs>' .

@@ -12,6 +12,8 @@ use Laminas\Form\Form;
 
 class CategoryForm extends Form
 {
+    public const CONTAINER_ID = 'category_form-list';
+
     /**
      * @inheritDoc
      */
@@ -25,8 +27,10 @@ class CategoryForm extends Form
             'name'       => 'add',
             'type'       => Button::class,
             'attributes' => [
-                'class' => 'btn btn-lg btn-outline-primary w-100',
-                'id'    => 'category_form-add',
+                'class'             => 'btn btn-lg btn-outline-primary w-100',
+                'id'                => 'category_form-add',
+                'onclick'           => 'add_item(this)',
+                'data-container-id' => self::CONTAINER_ID,
             ],
             'options'    => [
                 'label'                => 'Add',
@@ -39,6 +43,7 @@ class CategoryForm extends Form
             'type'       => Collection::class,
             'attributes' => [
                 'class' => 'row g-3',
+                'id'    => self::CONTAINER_ID,
             ],
             'options'    => [
                 'count'                  => 0,
