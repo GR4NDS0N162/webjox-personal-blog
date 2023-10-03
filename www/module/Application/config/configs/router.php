@@ -42,12 +42,24 @@ return [
             ],
         ],
         'category' => [
-            'type'    => Literal::class,
-            'options' => [
+            'type'          => Literal::class,
+            'options'       => [
                 'route'    => '/category',
                 'defaults' => [
                     'controller' => CategoryController::class,
                     'action'     => 'index',
+                ],
+            ],
+            'may_terminate' => true,
+            'child_routes'  => [
+                'save' => [
+                    'type'    => Literal::class,
+                    'options' => [
+                        'route'    => '/save',
+                        'defaults' => [
+                            'action' => 'save',
+                        ],
+                    ],
                 ],
             ],
         ],
