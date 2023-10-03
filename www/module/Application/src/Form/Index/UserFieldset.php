@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Application\Form\Index;
 
-use Application\Model\Entity\User;
 use Application\Model\Options\RoleOptions;
 use Application\View\Helper\FormRow;
 use Laminas\Form\Element\Email;
@@ -12,12 +11,10 @@ use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Password;
 use Laminas\Form\Element\Select;
 use Laminas\Form\Fieldset;
-use Laminas\ServiceManager\ServiceManager;
 
 class UserFieldset extends Fieldset
 {
     public function __construct(
-        private ServiceManager $serviceManager,
         private RoleOptions $roleOptions,
         $name = null,
         array $options = [],
@@ -31,8 +28,6 @@ class UserFieldset extends Fieldset
     public function init(): void
     {
         parent::init();
-
-        $this->setObject($this->serviceManager->build(User::class));
 
         $this->setAttribute('class', 'row g-3');
 
