@@ -41,7 +41,7 @@ class CategoryForm extends Form
                 'class' => 'row g-3',
             ],
             'options'    => [
-                'count'                  => 3,
+                'count'                  => 0,
                 'allow_add'              => true,
                 'allow_remove'           => true,
                 'should_create_template' => true,
