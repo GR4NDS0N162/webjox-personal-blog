@@ -88,8 +88,11 @@ return [
                 'edit' => [
                     'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/edit/[:id]',
-                        'defaults' => [
+                        'route'       => '/edit/[:id]',
+                        'constraints' => [
+                            'id' => '[0-9]*',
+                        ],
+                        'defaults'    => [
                             'action' => 'edit',
                         ],
                     ],

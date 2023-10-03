@@ -65,6 +65,12 @@ class PostController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
+        $postId = $this->params()->fromRoute('id');
+        if (!is_null($postId)) {
+            $post = $this->postRepository->findById((int)$postId);
+            $this->postForm->setData($post->getHydrator()->extract($post));
+        }
+
         $this->postForm->setAttribute('action', $this->url()->fromRoute('post/save'));
 
         return new ViewModel([
