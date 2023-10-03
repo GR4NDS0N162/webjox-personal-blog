@@ -83,21 +83,19 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
-        $data = $form->getData();
+        $user = $form->get('user')->getObject();
+        assert($user instanceof User);
 
-        if ($data['new-password'] !== $data['password-check']) {
+        $passwordCheck = $form->get('password_check')->getValue();
+
+        if (strcmp($user->getPassword(), $passwordCheck) != 0) {
             return $this->redirect()->toRoute('home');
         }
 
-        $user = $this->userRepository->findByEmail($data['email']);
-        if (!is_null($user)) {
+        $foundUser = $this->userRepository->findByEmail($user->getEmail());
+        if (!is_null($foundUser)) {
             return $this->redirect()->toRoute('home');
         }
-
-        $user = new User();
-        $user->setEmail($data['email']);
-        $user->setPassword($data['password']);
-        $user->setRoleId((int)$data['role_id']);
 
         $user->setId($this->userCommand->insertUser($user));
 
