@@ -33,6 +33,13 @@ class CategoryController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
+        $categories = $this->categoryRepository->findAll();
+        $data = ['list' => []];
+        foreach ($categories as $category) {
+            $data['list'][] = $category->getHydrator()->extract($category);
+        }
+
+        $this->categoryForm->setData($data);
         $this->categoryForm->setAttribute('action', $this->url()->fromRoute('category/save'));
 
         return new ViewModel([
