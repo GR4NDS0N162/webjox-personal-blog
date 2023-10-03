@@ -6,8 +6,6 @@ namespace Application\Form\Index;
 
 use Application\View\Helper\FormRow;
 use Laminas\Form\Element\Button;
-use Laminas\Form\Element\Email;
-use Laminas\Form\Element\Password;
 use Laminas\Form\Form;
 
 class SignInForm extends Form
@@ -22,40 +20,13 @@ class SignInForm extends Form
         $this->setAttribute('class', 'row g-3');
 
         $this->add([
-            'name'       => 'email',
-            'type'       => Email::class,
+            'name'       => 'user',
+            'type'       => LoginFieldset::class,
             'attributes' => [
-                'required'    => 'required',
-                'class'       => 'form-control',
-                'id'          => 'sign-in-form-email',
-                'placeholder' => '',
+                'id' => 'sign_in_form-user',
             ],
             'options'    => [
-                'label'                   => 'E-mail',
-                'label_attributes'        => [
-                    'class' => 'form-label',
-                ],
-                FormRow::FLOATING_ENABLED => true,
-                FormRow::WRAPPER_CLASS    => 'col-12',
-            ],
-        ]);
-
-        $this->add([
-            'name'       => 'password',
-            'type'       => Password::class,
-            'attributes' => [
-                'required'    => 'required',
-                'class'       => 'form-control',
-                'id'          => 'sign-in-form-password',
-                'placeholder' => '',
-            ],
-            'options'    => [
-                'label'                   => 'Password',
-                'label_attributes'        => [
-                    'class' => 'form-label',
-                ],
-                FormRow::FLOATING_ENABLED => true,
-                FormRow::WRAPPER_CLASS    => 'col-12',
+                FormRow::WRAPPER_CLASS => 'col-12',
             ],
         ]);
 
