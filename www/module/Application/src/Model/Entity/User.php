@@ -18,10 +18,10 @@ class User implements InputFilterAwareInterface, HydratorAwareInterface
     private HydratorInterface $hydrator;
 
     public function __construct(
-        private ?int $id,
-        private ?string $email,
-        private ?string $password,
-        private ?int $roleId,
+        private ?int $id = null,
+        private ?string $email = null,
+        private ?string $password = null,
+        private ?int $roleId = null,
     ) {}
 
     public function getId(): ?int

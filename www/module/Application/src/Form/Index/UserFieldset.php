@@ -12,12 +12,12 @@ use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Password;
 use Laminas\Form\Element\Select;
 use Laminas\Form\Fieldset;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceManager;
 
 class UserFieldset extends Fieldset
 {
     public function __construct(
-        private ServiceLocatorInterface $serviceLocator,
+        private ServiceManager $serviceManager,
         private RoleOptions $roleOptions,
         $name = null,
         array $options = [],
@@ -32,7 +32,7 @@ class UserFieldset extends Fieldset
     {
         parent::init();
 
-        $this->setObject($this->serviceLocator->build(User::class));
+        $this->setObject($this->serviceManager->build(User::class));
 
         $this->setAttribute('class', 'row g-3');
 

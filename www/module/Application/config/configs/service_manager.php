@@ -14,6 +14,7 @@ use Application\Model\Repository\UserRepository;
 use Application\Model\Repository\UserRepositoryInterface;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 use Psr\Container\ContainerInterface;
 
 return [
@@ -23,7 +24,7 @@ return [
         UserRepositoryInterface::class => UserRepository::class,
     ],
     'factories'          => [
-        User::class           => ReflectionBasedAbstractFactory::class,
+        User::class           => InvokableFactory::class,
         UserCommand::class    => function (ContainerInterface $container, $requestedName, ?array $options = null) {
             return new $requestedName(
                 $container->get(AdapterInterface::class),
@@ -40,11 +41,7 @@ return [
                 $container->get(AdapterInterface::class),
             );
         },
-        UserRepository::class => function (ContainerInterface $container, $requestedName, ?array $options = null) {
-            return new $requestedName(
-                $container->get(AdapterInterface::class),
-            );
-        },
+        UserRepository::class => ReflectionBasedAbstractFactory::class,
     ],
     'services'           => [
     ],

@@ -11,15 +11,10 @@ use Laminas\Db\Sql\Select;
 
 class UserRepository implements UserRepositoryInterface
 {
-    private AdapterInterface $db;
-
-    private User $prototype;
-
-    public function __construct(AdapterInterface $db)
-    {
-        $this->db = $db;
-        $this->prototype = new User();
-    }
+    public function __construct(
+        private AdapterInterface $db,
+        private User $prototype,
+    ) {}
 
     /**
      * @inheritDoc

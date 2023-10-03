@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Application\Form\Index;
 
-use Application\Model\Options\RoleOptions;
 use Application\View\Helper\FormRow;
 use Laminas\Form\Element\Button;
-use Laminas\Form\Element\Email;
 use Laminas\Form\Element\Password;
-use Laminas\Form\Element\Select;
 use Laminas\Form\Form;
 
 class SignUpForm extends Form
