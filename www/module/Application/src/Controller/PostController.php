@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Controller;
 
+use Application\Form\Post\PostForm;
 use Application\Model\Repository\PostRepositoryInterface;
 use Laminas\Form\FormElementManager;
 use Laminas\Http\Response;
@@ -15,12 +16,16 @@ use Laminas\View\Model\ViewModel;
 
 class PostController extends AbstractActionController
 {
+    private PostForm $postForm;
+
     public function __construct(
         private ServiceManager $serviceManager,
         private FormElementManager $formElementManager,
         private SessionContainer $sessionContainer,
         private PostRepositoryInterface $postRepository,
-    ) {}
+    ) {
+        $this->postForm = $this->formElementManager->get(PostForm::class);
+    }
 
     public function indexAction(): ViewModel|Response
     {
@@ -51,5 +56,29 @@ class PostController extends AbstractActionController
         }
 
         return new JsonModel($data);
+    }
+
+    public function editAction(): ViewModel|Response
+    {
+        $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
+        if (!is_int($userId)) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        $this->postForm->setAttribute('action', $this->url()->fromRoute('post/save'));
+
+        return new ViewModel([
+            'postForm' => $this->postForm,
+        ]);
+    }
+
+    public function saveAction(): Response
+    {
+        $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
+        if (!is_int($userId)) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        return $this->redirect()->toRoute('post');
     }
 }

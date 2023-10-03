@@ -8,6 +8,7 @@ use Application\Controller\CategoryController;
 use Application\Controller\IndexController;
 use Application\Controller\PostController;
 use Laminas\Router\Http\Literal;
+use Laminas\Router\Http\Segment;
 
 return [
     'routes' => [
@@ -75,12 +76,30 @@ return [
             ],
             'may_terminate' => true,
             'child_routes'  => [
-                'get' => [
+                'get'  => [
                     'type'    => Literal::class,
                     'options' => [
                         'route'    => '/get',
                         'defaults' => [
                             'action' => 'get',
+                        ],
+                    ],
+                ],
+                'edit' => [
+                    'type'    => Segment::class,
+                    'options' => [
+                        'route'    => '/edit/[:id]',
+                        'defaults' => [
+                            'action' => 'edit',
+                        ],
+                    ],
+                ],
+                'save' => [
+                    'type'    => Literal::class,
+                    'options' => [
+                        'route'    => '/save',
+                        'defaults' => [
+                            'action' => 'save',
                         ],
                     ],
                 ],

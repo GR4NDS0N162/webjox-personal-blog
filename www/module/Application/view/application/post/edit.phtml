@@ -1,0 +1,14 @@
+<?php
+/**
+ * @var PhpRenderer|HelperTrait $this
+ * @var PostForm                $postForm
+ */
+
+declare(strict_types=1);
+
+use Application\Form\Post\PostForm;
+use Laminas\Form\View\HelperTrait;
+use Laminas\View\Renderer\PhpRenderer;
+
+?>
+<?= $this->form()->render($postForm); ?>
