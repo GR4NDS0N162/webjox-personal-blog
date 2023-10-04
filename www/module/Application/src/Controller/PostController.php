@@ -60,30 +60,19 @@ class PostController extends AbstractActionController
                 return $this->redirect()->toRoute('post');
             }
 
-            $postCategories = [];
-            foreach ($this->categoryRepository->findByPostId($post->getId()) as $category) {
-                $postCategories[$category->getId()] = true;
-            }
-
-            $allCategories = [];
+            $options = [];
             foreach ($this->categoryRepository->findAll() as $category) {
-                $allCategories[$category->getId()] = [
-                    'value'            => $category->getId(),
-                    'label'            => $category->getName(),
-                    'selected'         => isset($postCategories[$category->getId()]),
-                    'disabled'         => false,
-                    'attributes'       => [
-                        'class' => 'form-check-input',
-                    ],
-                    'label_attributes' => [
-                        'class' => 'form-check-label',
-                    ],
-                ];
+                $options[$category->getId()] = $category->getName();
+            }
+            $selected = [];
+            foreach ($this->categoryRepository->findByPostId($post->getId()) as $category) {
+                $selected[] = $category->getId();
             }
 
             $categoriesElement = $this->postForm->get('categories');
             assert($categoriesElement instanceof MultiCheckbox);
-            $categoriesElement->setValueOptions($allCategories);
+            $categoriesElement->setValueOptions($options);
+            $categoriesElement->setValue($selected);
 
             $this->postForm->setData(['post' => $post->getHydrator()->extract($post)]);
         }
