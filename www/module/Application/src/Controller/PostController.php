@@ -7,6 +7,7 @@ namespace Application\Controller;
 use Application\Form\Post\PostForm;
 use Application\Helper\Controller\Validator;
 use Application\Model\Command\PostCommandInterface;
+use Application\Model\Entity\Post;
 use Application\Model\Repository\PostRepositoryInterface;
 use Laminas\Form\FormElementManager;
 use Laminas\Http\Response;
@@ -108,6 +109,20 @@ class PostController extends AbstractActionController
         }
 
         $data = $form->getData();
+
+        $post = $this->serviceManager->build(Post::class);
+        assert($post instanceof Post);
+        $post->getHydrator()->hydrate($data['post'], $post);
+
+        if (is_null($post->getId())) {
+            if (!Validator::isAdmin($this->sessionContainer)) {
+                return $this->redirect()->toRoute('post');
+            }
+            $this->postCommand->insert($post);
+        }
+        else {
+            $this->postCommand->update($post);
+        }
 
         return $this->redirect()->toRoute('post');
     }
