@@ -8,7 +8,9 @@ use Application\Form\Post\PostForm;
 use Application\Helper\Controller\Validator;
 use Application\Model\Command\PostCommandInterface;
 use Application\Model\Entity\Post;
+use Application\Model\Repository\CategoryRepositoryInterface;
 use Application\Model\Repository\PostRepositoryInterface;
+use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\FormElementManager;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -25,6 +27,7 @@ class PostController extends AbstractActionController
         private FormElementManager $formElementManager,
         private SessionContainer $sessionContainer,
         private PostRepositoryInterface $postRepository,
+        private CategoryRepositoryInterface $categoryRepository,
         private PostCommandInterface $postCommand,
     ) {
         $this->postForm = $this->formElementManager->get(PostForm::class);
@@ -56,6 +59,32 @@ class PostController extends AbstractActionController
             if (is_null($post)) {
                 return $this->redirect()->toRoute('post');
             }
+
+            $postCategories = [];
+            foreach ($this->categoryRepository->findByPostId($post->getId()) as $category) {
+                $postCategories[$category->getId()] = true;
+            }
+
+            $allCategories = [];
+            foreach ($this->categoryRepository->findAll() as $category) {
+                $allCategories[$category->getId()] = [
+                    'value'            => $category->getId(),
+                    'label'            => $category->getName(),
+                    'selected'         => isset($postCategories[$category->getId()]),
+                    'disabled'         => false,
+                    'attributes'       => [
+                        'class' => 'form-check-input',
+                    ],
+                    'label_attributes' => [
+                        'class' => 'form-check-label',
+                    ],
+                ];
+            }
+
+            $categoriesElement = $this->postForm->get('categories');
+            assert($categoriesElement instanceof MultiCheckbox);
+            $categoriesElement->setValueOptions($allCategories);
+
             $this->postForm->setData(['post' => $post->getHydrator()->extract($post)]);
         }
         else if (!Validator::isAdmin($this->sessionContainer)) {

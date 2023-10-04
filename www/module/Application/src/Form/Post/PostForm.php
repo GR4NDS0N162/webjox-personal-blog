@@ -7,6 +7,7 @@ namespace Application\Form\Post;
 use Application\Fieldset\PostFieldset;
 use Application\View\Helper\FormRow;
 use Laminas\Form\Element\Button;
+use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\Form;
 
 class PostForm extends Form
@@ -27,6 +28,21 @@ class PostForm extends Form
                 'id' => 'post_form-post',
             ],
             'options'    => [
+                FormRow::WRAPPER_CLASS => 'col-12',
+            ],
+        ]);
+
+        $this->add([
+            'name'       => 'categories',
+            'type'       => MultiCheckbox::class,
+            'attributes' => [
+                'class' => 'row g-3',
+            ],
+            'options'    => [
+                'label'                => 'Categories',
+                'label_attributes'     => [
+                    'class' => 'form-label',
+                ],
                 FormRow::WRAPPER_CLASS => 'col-12',
             ],
         ]);
