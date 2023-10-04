@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Application\Form\Post;
 
+use Application\Fieldset\PostFieldset;
 use Application\View\Helper\FormRow;
-use Laminas\Form\Element\Hidden;
-use Laminas\Form\Element\Textarea;
+use Laminas\Form\Element\Button;
 use Laminas\Form\Form;
 
 class PostForm extends Form
@@ -21,27 +21,27 @@ class PostForm extends Form
         $this->setAttribute('class', 'row g-3');
 
         $this->add([
-            'name' => 'id',
-            'type' => Hidden::class,
+            'name'       => 'post',
+            'type'       => PostFieldset::class,
+            'attributes' => [
+                'id' => 'post_form-post',
+            ],
+            'options'    => [
+                FormRow::WRAPPER_CLASS => 'col-12',
+            ],
         ]);
 
         $this->add([
-            'name'       => 'content',
-            'type'       => Textarea::class,
+            'name'       => 'submit',
+            'type'       => Button::class,
             'attributes' => [
-                'required'    => 'required',
-                'class'       => 'form-control',
-                'id'          => 'post_form-content',
-                'placeholder' => '',
+                'type'  => 'submit',
+                'class' => 'btn btn-lg btn-outline-success w-100',
             ],
             'options'    => [
-                'label'                   => 'Content',
-                'label_attributes'        => [
-                    'class' => 'form-label',
-                ],
-                FormRow::FLOATING_ENABLED => true,
-                FormRow::WRAPPER_CLASS    => 'col-12',
+                'label'                => 'Save',
+                FormRow::WRAPPER_CLASS => 'col-12',
             ],
-        ]);
+        ], ['priority' => -10 ** 9]);
     }
 }

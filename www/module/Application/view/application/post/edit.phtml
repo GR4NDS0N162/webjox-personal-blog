@@ -2,6 +2,7 @@
 /**
  * @var PhpRenderer|HelperTrait $this
  * @var PostForm                $postForm
+ * @var string|null             $postId
  */
 
 declare(strict_types=1);
@@ -11,4 +12,9 @@ use Laminas\Form\View\HelperTrait;
 use Laminas\View\Renderer\PhpRenderer;
 
 ?>
+<?php if (is_null($postId)): ?>
+    <h2>New Post</h2>
+<?php else: ?>
+    <h2>Post #<?= $postId; ?></h2>
+<?php endif; ?>
 <?= $this->form()->render($postForm); ?>
