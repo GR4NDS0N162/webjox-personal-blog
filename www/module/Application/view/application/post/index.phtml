@@ -1,40 +1,32 @@
 <?php
 /**
  * @var PhpRenderer|HelperTrait $this
+ * @var Post[]                  $posts
  */
 
-use Application\View\Helper\FormRow;
-use Laminas\Form\Element\Select;
+use Application\Model\Entity\Post;
 use Laminas\Form\View\HelperTrait;
 use Laminas\View\Renderer\PhpRenderer;
 
-$this->inlineScript()
-    ->appendFile($this->basePath('js/jquery-3.7.1.min.js'))
-    ->appendFile($this->basePath('js/list.js'));
-
-$pageSelector = new Select('page-selector');
-$pageSelector->setAttributes([
-    'class' => 'form-select',
-    'id'    => 'page-selector',
-    'style' => 'padding-right: 3.6rem',
-]);
-$pageSelector->setOptions([
-    'label'                   => 'Page',
-    'label_attributes'        => [
-        'class' => 'form-label',
-    ],
-    FormRow::FLOATING_ENABLED => true,
-    FormRow::WRAPPER_CLASS    => 'col-auto',
-    'options'                 => [1],
-]);
 ?>
 <div class="row g-3">
     <div class="col-12">
-        <div class="row g-3" id="post-list"></div>
-    </div>
-    <div class="col-12">
-        <div class="row justify-content-center">
-            <?= $this->formRow()->render($pageSelector); ?>
+        <div class="row g-3" id="post-list">
+            <?php foreach ($posts as $post): ?>
+                <div class="col-12">
+                    <div class="card p-3">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <p class="h4"><a href="<?= $this->url('post/edit',
+                                        ['id' => $post->getId()]); ?>">Post #<?= $post->getId(); ?></a></p>
+                            </div>
+                            <div class="col-12">
+                                <p class="mb-0"><?= $post->getContent(); ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>

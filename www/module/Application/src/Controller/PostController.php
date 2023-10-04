@@ -33,35 +33,15 @@ class PostController extends AbstractActionController
 
     public function indexAction(): ViewModel|Response
     {
-        $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
-        if (!is_int($userId)) {
+        if (!Validator::isValidSession($this->sessionContainer)) {
             return $this->redirect()->toRoute('home');
         }
 
-        return new ViewModel();
-    }
-
-    public function getAction(): JsonModel
-    {
-        $data = ['list' => []];
-
-        if (!Validator::isValidSession($this->sessionContainer)) {
-            return new JsonModel($data);
-        }
-
-        $request = $this->getRequest();
-        if (!$request->isGet()) {
-            return new JsonModel($data);
-        }
-
         $posts = $this->postRepository->findAll();
-        foreach ($posts as $post) {
-            $data['list'][] = $post->getHydrator()->extract($post);
-        }
 
-        $data['is_admin'] = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID) == IndexController::ADMIN_ROLE_ID;
-
-        return new JsonModel($data);
+        return new ViewModel([
+            'posts' => $posts,
+        ]);
     }
 
     public function editAction(): ViewModel|Response

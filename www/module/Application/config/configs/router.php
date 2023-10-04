@@ -76,15 +76,6 @@ return [
             ],
             'may_terminate' => true,
             'child_routes'  => [
-                'get'    => [
-                    'type'    => Literal::class,
-                    'options' => [
-                        'route'    => '/get',
-                        'defaults' => [
-                            'action' => 'get',
-                        ],
-                    ],
-                ],
                 'edit'   => [
                     'type'    => Segment::class,
                     'options' => [
