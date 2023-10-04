@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application\Controller;
 
 use Application\Form\Category\CategoryForm;
+use Application\Helper\Controller\Validator;
 use Application\Model\Command\CategoryCommandInterface;
 use Application\Model\Entity\Category;
 use Application\Model\Repository\CategoryRepositoryInterface;
@@ -31,9 +32,7 @@ class CategoryController extends AbstractActionController
 
     public function indexAction(): ViewModel|Response
     {
-        $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
-        $userRoleId = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID);
-        if (!is_int($userId) || !is_int($userRoleId)) {
+        if (!Validator::isValidSession($this->sessionContainer)) {
             return $this->redirect()->toRoute('home');
         }
 
@@ -53,9 +52,7 @@ class CategoryController extends AbstractActionController
 
     public function saveAction(): Response
     {
-        $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
-        $userRoleId = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID);
-        if (!is_int($userId) || !is_int($userRoleId)) {
+        if (!Validator::isValidSession($this->sessionContainer)) {
             return $this->redirect()->toRoute('home');
         }
 
