@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Application\Model\Command;
 
 use Application\Helper\Command\Executer;
+use Application\Model\Entity\Post;
 use Application\Model\Repository\CategoryRepositoryInterface;
 use Application\Model\Repository\PostRepositoryInterface;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Sql\Delete;
 use Laminas\Db\Sql\Insert;
+use Laminas\Db\Sql\Update;
 
 class PostCommand implements PostCommandInterface
 {
@@ -73,5 +75,28 @@ class PostCommand implements PostCommandInterface
         $delete->where(['id = ?' => $id]);
 
         Executer::executeSql($delete, $this->adapter);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(Post $post): void
+    {
+        $update = new Update('posts');
+        $update->set(['content' => $post->getContent()]);
+        $update->where(['id' => $post->getId()]);
+
+        Executer::executeSql($update, $this->adapter);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function insert(Post $post): void
+    {
+        $insert = new Insert('posts');
+        $insert->values(['content' => $post->getContent()]);
+
+        Executer::executeSql($insert, $this->adapter);
     }
 }

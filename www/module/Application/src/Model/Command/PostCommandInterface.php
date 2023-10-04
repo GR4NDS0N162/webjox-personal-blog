@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Model\Command;
 
+use Application\Model\Entity\Post;
+
 interface PostCommandInterface
 {
     /**
@@ -28,4 +30,18 @@ interface PostCommandInterface
      * @return void
      */
     public function deleteById(int $id): void;
+
+    /**
+     * @param Post $post
+     *
+     * @return void
+     */
+    public function update(Post $post): void;
+
+    /**
+     * @param Post $post
+     *
+     * @return void
+     */
+    public function insert(Post $post): void;
 }
