@@ -27,7 +27,7 @@ function getMarkup(list) {
         let postHTML = '';
 
         postHTML += `<div class="col-12">
-            <p class="h4">Post #${id}</p>
+            <p class="h4"><a href="/post/edit/${id}">Post #${id}</a></p>
         </div>`;
         postHTML += `<div class="col-12">
             <p class="mb-0">${content}</p>
