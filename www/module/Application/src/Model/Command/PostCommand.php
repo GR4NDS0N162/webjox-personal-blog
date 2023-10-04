@@ -63,4 +63,15 @@ class PostCommand implements PostCommandInterface
 
         Executer::executeSql($delete, $this->adapter);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function deleteById(int $id): void
+    {
+        $delete = new Delete('posts');
+        $delete->where(['id = ?' => $id]);
+
+        Executer::executeSql($delete, $this->adapter);
+    }
 }

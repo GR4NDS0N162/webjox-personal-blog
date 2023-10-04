@@ -20,7 +20,9 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class IndexController extends AbstractActionController
 {
-    const USER_ID_KEY = 'user_id';
+    public const USER_ID_KEY = 'user_id';
+    public const USER_ROLE_ID = 'user_role_id';
+    public const ADMIN_ROLE_ID = 1;
 
     private SignInForm $signInForm;
 
@@ -78,6 +80,7 @@ class IndexController extends AbstractActionController
         }
 
         $this->sessionContainer->offsetSet(self::USER_ID_KEY, $foundUser->getId());
+        $this->sessionContainer->offsetSet(self::USER_ROLE_ID, $foundUser->getRoleId());
         return $this->redirect()->toRoute('category');
     }
 

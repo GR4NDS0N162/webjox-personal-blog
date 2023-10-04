@@ -76,7 +76,7 @@ return [
             ],
             'may_terminate' => true,
             'child_routes'  => [
-                'get'  => [
+                'get'    => [
                     'type'    => Literal::class,
                     'options' => [
                         'route'    => '/get',
@@ -85,24 +85,36 @@ return [
                         ],
                     ],
                 ],
-                'edit' => [
+                'edit'   => [
                     'type'    => Segment::class,
                     'options' => [
-                        'route'       => '/edit/[:id]',
+                        'route'       => '/edit[/:id]',
                         'constraints' => [
-                            'id' => '[0-9]*',
+                            'id' => '[0-9]+',
                         ],
                         'defaults'    => [
                             'action' => 'edit',
                         ],
                     ],
                 ],
-                'save' => [
+                'save'   => [
                     'type'    => Literal::class,
                     'options' => [
                         'route'    => '/save',
                         'defaults' => [
                             'action' => 'save',
+                        ],
+                    ],
+                ],
+                'delete' => [
+                    'type'    => Segment::class,
+                    'options' => [
+                        'route'       => '/delete/:id',
+                        'constraints' => [
+                            'id' => '[0-9]+',
+                        ],
+                        'defaults'    => [
+                            'action' => 'delete',
                         ],
                     ],
                 ],

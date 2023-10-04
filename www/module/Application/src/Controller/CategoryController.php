@@ -32,7 +32,8 @@ class CategoryController extends AbstractActionController
     public function indexAction(): ViewModel|Response
     {
         $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
-        if (!is_int($userId)) {
+        $userRoleId = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID);
+        if (!is_int($userId) || !is_int($userRoleId)) {
             return $this->redirect()->toRoute('home');
         }
 
@@ -53,7 +54,8 @@ class CategoryController extends AbstractActionController
     public function saveAction(): Response
     {
         $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
-        if (!is_int($userId)) {
+        $userRoleId = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID);
+        if (!is_int($userId) || !is_int($userRoleId)) {
             return $this->redirect()->toRoute('home');
         }
 

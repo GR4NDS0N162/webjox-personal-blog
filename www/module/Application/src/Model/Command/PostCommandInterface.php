@@ -21,4 +21,11 @@ interface PostCommandInterface
      * @return void
      */
     public function removePostFromCategory(int $postId, int $categoryId): void;
+
+    /**
+     * @param int $id
+     *
+     * @return void
+     */
+    public function deleteById(int $id): void;
 }

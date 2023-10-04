@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application\Controller;
 
 use Application\Form\Post\PostForm;
+use Application\Model\Command\PostCommandInterface;
 use Application\Model\Repository\PostRepositoryInterface;
 use Laminas\Form\FormElementManager;
 use Laminas\Http\Response;
@@ -23,6 +24,7 @@ class PostController extends AbstractActionController
         private FormElementManager $formElementManager,
         private SessionContainer $sessionContainer,
         private PostRepositoryInterface $postRepository,
+        private PostCommandInterface $postCommand,
     ) {
         $this->postForm = $this->formElementManager->get(PostForm::class);
     }
@@ -39,9 +41,11 @@ class PostController extends AbstractActionController
 
     public function getAction(): JsonModel
     {
-        $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
         $data = ['list' => []];
-        if (!is_int($userId)) {
+
+        $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
+        $userRoleId = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID);
+        if (!is_int($userId) || !is_int($userRoleId)) {
             return new JsonModel($data);
         }
 
@@ -55,13 +59,16 @@ class PostController extends AbstractActionController
             $data['list'][] = $post->getHydrator()->extract($post);
         }
 
+        $data['is_admin'] = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID) == IndexController::ADMIN_ROLE_ID;
+
         return new JsonModel($data);
     }
 
     public function editAction(): ViewModel|Response
     {
         $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
-        if (!is_int($userId)) {
+        $userRoleId = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID);
+        if (!is_int($userId) || !is_int($userRoleId)) {
             return $this->redirect()->toRoute('home');
         }
 
@@ -72,6 +79,12 @@ class PostController extends AbstractActionController
                 return $this->redirect()->toRoute('post');
             }
             $this->postForm->setData(['post' => $post->getHydrator()->extract($post)]);
+        }
+        else {
+            $userRoleId = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID);
+            if ($userRoleId != IndexController::ADMIN_ROLE_ID) {
+                return $this->redirect()->toRoute('post');
+            }
         }
 
         $this->postForm->setAttribute('action', $this->url()->fromRoute('post/save'));
@@ -85,7 +98,8 @@ class PostController extends AbstractActionController
     public function saveAction(): Response
     {
         $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
-        if (!is_int($userId)) {
+        $userRoleId = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID);
+        if (!is_int($userId) || !is_int($userRoleId)) {
             return $this->redirect()->toRoute('home');
         }
 
@@ -102,6 +116,28 @@ class PostController extends AbstractActionController
         }
 
         $data = $form->getData();
+
+        return $this->redirect()->toRoute('post');
+    }
+
+    public function deleteAction(): Response
+    {
+        $userId = $this->sessionContainer->offsetGet(IndexController::USER_ID_KEY);
+        $userRoleId = $this->sessionContainer->offsetGet(IndexController::USER_ROLE_ID);
+        if (!is_int($userId) || !is_int($userRoleId)) {
+            return $this->redirect()->toRoute('home');
+        }
+
+        if ($userRoleId != IndexController::ADMIN_ROLE_ID) {
+            return $this->redirect()->toRoute('post');
+        }
+
+        $postId = $this->params()->fromRoute('id');
+        if (is_null($postId)) {
+            return $this->redirect()->toRoute('post');
+        }
+
+        $this->postCommand->deleteById((int)$postId);
 
         return $this->redirect()->toRoute('post');
     }
