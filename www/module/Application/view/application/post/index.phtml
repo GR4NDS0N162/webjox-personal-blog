@@ -2,6 +2,7 @@
 /**
  * @var PhpRenderer|HelperTrait $this
  * @var Post[]                  $posts
+ * @var bool                    $isAdmin
  */
 
 use Application\Model\Entity\Post;
@@ -12,14 +13,28 @@ use Laminas\View\Renderer\PhpRenderer;
 <div class="row g-3">
     <div class="col-12">
         <div class="row g-3" id="post-list">
+            <?php if ($isAdmin): ?>
+                <div class="col-12">
+                    <a class="btn btn-outline-success w-100" href="<?= $this->url('post/edit'); ?>">Add</a>
+                </div>
+            <?php endif; ?>
             <?php foreach ($posts as $post): ?>
                 <div class="col-12">
                     <div class="card p-3">
                         <div class="row g-3">
-                            <div class="col-12">
-                                <p class="h4"><a href="<?= $this->url('post/edit',
-                                        ['id' => $post->getId()]); ?>">Post #<?= $post->getId(); ?></a></p>
+                            <div class="col-auto">
+                                <h2>Post #<?= $post->getId(); ?></h2>
                             </div>
+                            <div class="col-auto">
+                                <a class="btn btn-outline-primary w-100" href="<?= $this->url('post/edit',
+                                    ['id' => $post->getId()]); ?>">Edit</a>
+                            </div>
+                            <?php if ($isAdmin): ?>
+                                <div class="col-auto">
+                                    <a class="btn btn-outline-danger w-100" href="<?= $this->url('post/delete',
+                                        ['id' => $post->getId()]); ?>">Delete</a>
+                                </div>
+                            <?php endif; ?>
                             <div class="col-12">
                                 <p class="mb-0"><?= $post->getContent(); ?></p>
                             </div>

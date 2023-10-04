@@ -14,7 +14,6 @@ use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Container as SessionContainer;
-use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
 
 class PostController extends AbstractActionController
@@ -40,7 +39,8 @@ class PostController extends AbstractActionController
         $posts = $this->postRepository->findAll();
 
         return new ViewModel([
-            'posts' => $posts,
+            'posts'   => $posts,
+            'isAdmin' => Validator::isAdmin($this->sessionContainer),
         ]);
     }
 
