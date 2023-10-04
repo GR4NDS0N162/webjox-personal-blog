@@ -15,6 +15,9 @@ use Laminas\Db\Sql\Update;
 
 class PostCommand implements PostCommandInterface
 {
+    public const MAIN_TABLE = 'posts';
+    public const LINK_TABLE = 'posts_categories';
+
     public function __construct(
         private AdapterInterface $adapter,
         private PostRepositoryInterface $postRepository,
@@ -43,12 +46,11 @@ class PostCommand implements PostCommandInterface
             }
         }
 
-        $insert = new Insert('posts_categories');
+        $insert = new Insert(self::LINK_TABLE);
         $insert->values([
             'post_id'     => $postId,
             'category_id' => $categoryId,
         ]);
-
         Executer::executeSql($insert, $this->adapter);
     }
 
@@ -57,12 +59,11 @@ class PostCommand implements PostCommandInterface
      */
     public function removePostFromCategory(int $postId, int $categoryId): void
     {
-        $delete = new Delete('posts_categories');
+        $delete = new Delete(self::LINK_TABLE);
         $delete->where([
-            'post_id = ?'     => $postId,
-            'category_id = ?' => $categoryId,
+            'post_id'     => $postId,
+            'category_id' => $categoryId,
         ]);
-
         Executer::executeSql($delete, $this->adapter);
     }
 
@@ -71,9 +72,8 @@ class PostCommand implements PostCommandInterface
      */
     public function deleteById(int $id): void
     {
-        $delete = new Delete('posts');
-        $delete->where(['id = ?' => $id]);
-
+        $delete = new Delete(self::MAIN_TABLE);
+        $delete->where(['id' => $id]);
         Executer::executeSql($delete, $this->adapter);
     }
 
@@ -82,10 +82,9 @@ class PostCommand implements PostCommandInterface
      */
     public function update(Post $post): void
     {
-        $update = new Update('posts');
-        $update->set(['content' => $post->getContent()]);
+        $update = new Update(self::MAIN_TABLE);
         $update->where(['id' => $post->getId()]);
-
+        $update->set(['content' => $post->getContent()]);
         Executer::executeSql($update, $this->adapter);
     }
 
@@ -94,9 +93,8 @@ class PostCommand implements PostCommandInterface
      */
     public function insert(Post $post): void
     {
-        $insert = new Insert('posts');
+        $insert = new Insert(self::MAIN_TABLE);
         $insert->values(['content' => $post->getContent()]);
-
         Executer::executeSql($insert, $this->adapter);
     }
 }

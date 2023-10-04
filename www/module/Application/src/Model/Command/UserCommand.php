@@ -12,6 +12,8 @@ use Laminas\Db\Sql\Insert;
 
 class UserCommand implements UserCommandInterface
 {
+    public const MAIN_TABLE = 'users';
+
     public function __construct(
         private AdapterInterface $db,
         private UserRepositoryInterface $userRepository,
@@ -24,7 +26,7 @@ class UserCommand implements UserCommandInterface
             return null;
         }
 
-        $insert = new Insert('users');
+        $insert = new Insert(self::MAIN_TABLE);
         $insert->values([
             'email'    => $user->getEmail(),
             'password' => $user->getPassword(),
@@ -32,7 +34,6 @@ class UserCommand implements UserCommandInterface
         ]);
 
         $user->setId((int)Executer::executeSql($insert, $this->db));
-
         return $user->getId();
     }
 }

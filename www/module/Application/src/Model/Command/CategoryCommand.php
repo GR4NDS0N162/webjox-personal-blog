@@ -13,6 +13,9 @@ use Laminas\Db\Sql\Update;
 
 class CategoryCommand implements CategoryCommandInterface
 {
+    public const MAIN_TABLE = 'categories';
+    public const LINK_TABLE = 'posts_categories';
+
     public function __construct(
         private AdapterInterface $adapter,
     ) {}
@@ -50,26 +53,23 @@ class CategoryCommand implements CategoryCommandInterface
 
     public function deleteById(int $id): void
     {
-        $delete = new Delete('categories');
-        $delete->where(['id = ?' => $id]);
-
+        $delete = new Delete(self::MAIN_TABLE);
+        $delete->where(['id' => $id]);
         Executer::executeSql($delete, $this->adapter);
     }
 
     public function update(Category $category): void
     {
-        $update = new Update('categories');
-        $update->set(['name' => $category->getName()]);
+        $update = new Update(self::MAIN_TABLE);
         $update->where(['id' => $category->getId()]);
-
+        $update->set(['name' => $category->getName()]);
         Executer::executeSql($update, $this->adapter);
     }
 
     public function add(Category $category): void
     {
-        $insert = new Insert('categories');
+        $insert = new Insert(self::MAIN_TABLE);
         $insert->values(['name' => $category->getName()]);
-
         Executer::executeSql($insert, $this->adapter);
     }
 }
