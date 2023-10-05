@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application\Form\Post;
 
 use Application\Fieldset\PostFieldset;
+use Application\View\Helper\FormMultiCheckbox;
 use Application\View\Helper\FormRow;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\MultiCheckbox;
@@ -36,14 +37,17 @@ class PostForm extends Form
             'name'       => 'categories',
             'type'       => MultiCheckbox::class,
             'attributes' => [
-                'class' => 'row g-3',
+                'class' => 'form-check-input',
             ],
             'options'    => [
-                'label'                => 'Categories',
-                'label_attributes'     => [
-                    'class' => 'form-label',
+                'label'                                  => 'Categories',
+                'label_attributes'                       => [
+                    'class' => 'form-check-label',
                 ],
-                FormRow::WRAPPER_CLASS => 'col-12',
+                FormRow::WRAPPER_CLASS                   => 'col-12',
+                FormMultiCheckbox::OPTIONS_WRAPPER_CLASS => 'row g-3',
+                FormMultiCheckbox::OPTION_WRAPPER_CLASS  => 'col-12',
+                FormMultiCheckbox::INPUT_WRAPPER_CLASS   => 'form-check',
             ],
         ]);
 
