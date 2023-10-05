@@ -81,7 +81,7 @@ class IndexController extends AbstractActionController
 
         $this->sessionContainer->offsetSet(self::USER_ID_KEY, $foundUser->getId());
         $this->sessionContainer->offsetSet(self::USER_ROLE_ID, $foundUser->getRoleId());
-        return $this->redirect()->toRoute('category');
+        return $this->redirect()->toRoute('post');
     }
 
     /**
@@ -119,6 +119,7 @@ class IndexController extends AbstractActionController
 
         $user->setId($this->userCommand->insertUser($user));
         $this->sessionContainer->offsetSet(self::USER_ID_KEY, $user->getId());
-        return $this->redirect()->toRoute('category');
+        $this->sessionContainer->offsetSet(self::USER_ROLE_ID, $user->getRoleId());
+        return $this->redirect()->toRoute('post');
     }
 }
