@@ -11,8 +11,9 @@ use Laminas\Db\Sql\Select;
 
 class PostRepository implements PostRepositoryInterface
 {
-    public const MAIN_TABLE = 'posts';
-    public const LINK_TABLE = 'posts_categories';
+    public const POSTS = 'posts';
+    public const POSTS_CATEGORIES = 'posts_categories';
+    public const STATUSES = 'statuses';
 
     public function __construct(
         private AdapterInterface $adapter,
@@ -24,12 +25,29 @@ class PostRepository implements PostRepositoryInterface
      */
     public function findAll(): array
     {
-        $select = new Select(['p' => self::MAIN_TABLE]);
-        $select->columns([
-            'id'      => 'p.id',
-            'content' => 'p.content',
-        ], false);
+        $select = $this->getSelect();
         return Extracter::extractValues($select, $this->adapter, $this->prototype);
+    }
+
+    /**
+     * @return Select
+     */
+    private function getSelect(): Select
+    {
+        $select = new Select(self::POSTS);
+        $select->columns([
+            'id'      => 'id',
+            'content' => 'content',
+        ]);
+        $select->join(
+            self::STATUSES,
+            sprintf('%s.status_id = %s.id', self::POSTS, self::STATUSES),
+            [
+                'status_id'   => 'id',
+                'status_name' => 'name',
+            ],
+        );
+        return $select;
     }
 
     /**
@@ -37,12 +55,8 @@ class PostRepository implements PostRepositoryInterface
      */
     public function findById(int $id): ?Post
     {
-        $select = new Select(['p' => self::MAIN_TABLE]);
-        $select->columns([
-            'id'      => 'p.id',
-            'content' => 'p.content',
-        ], false);
-        $select->where(['p.id = ?' => $id]);
+        $select = $this->getSelect();
+        $select->where([sprintf('%s.id', self::POSTS) => $id]);
         $object = Extracter::extractValue($select, $this->adapter, $this->prototype);
         assert(is_null($object) || $object instanceof Post);
         return $object;

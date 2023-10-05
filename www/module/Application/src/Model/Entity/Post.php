@@ -17,6 +17,8 @@ class Post implements HydratorAwareInterface
     public function __construct(
         private ?int $id = null,
         private ?string $content = null,
+        private ?int $statusId = null,
+        private ?string $statusName = null,
     ) {}
 
     public function getId(): ?int
@@ -41,6 +43,28 @@ class Post implements HydratorAwareInterface
         return $this;
     }
 
+    public function getStatusId(): ?int
+    {
+        return $this->statusId;
+    }
+
+    public function setStatusId(?int $statusId): Post
+    {
+        $this->statusId = $statusId;
+        return $this;
+    }
+
+    public function getStatusName(): ?string
+    {
+        return $this->statusName;
+    }
+
+    public function setStatusName(?string $statusName): Post
+    {
+        $this->statusName = $statusName;
+        return $this;
+    }
+
     /**
      * @inheritDoc
      */
@@ -62,6 +86,8 @@ class Post implements HydratorAwareInterface
 
         $this->hydrator->addStrategy('id', new NullableStrategy(ScalarTypeStrategy::createToInt(), true));
         $this->hydrator->addStrategy('content', new NullableStrategy(ScalarTypeStrategy::createToString(), true));
+        $this->hydrator->addStrategy('status_id', new NullableStrategy(ScalarTypeStrategy::createToInt(), true));
+        $this->hydrator->addStrategy('status_name', new NullableStrategy(ScalarTypeStrategy::createToString(), true));
 
         return $this->hydrator;
     }

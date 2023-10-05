@@ -9,7 +9,7 @@ use Laminas\Db\Sql\Select;
 
 class RoleRepository implements RoleRepositoryInterface
 {
-    public const MAIN_TABLE = 'roles';
+    public const ROLES = 'roles';
 
     public function __construct(
         private AdapterInterface $db,
@@ -21,12 +21,21 @@ class RoleRepository implements RoleRepositoryInterface
      */
     public function findAll(): array
     {
-        $select = new Select(['r' => self::MAIN_TABLE]);
-        $select->columns([
-            'id'   => 'r.id',
-            'name' => 'r.name',
-        ], false);
+        $select = $this->getSelect();
         return Extracter::extractValues($select, $this->db, $this->prototype);
+    }
+
+    /**
+     * @return Select
+     */
+    private function getSelect(): Select
+    {
+        $select = new Select(self::ROLES);
+        $select->columns([
+            'id'   => 'id',
+            'name' => 'name',
+        ]);
+        return $select;
     }
 
     /**
@@ -34,12 +43,8 @@ class RoleRepository implements RoleRepositoryInterface
      */
     public function findById(int $id): ?Role
     {
-        $select = new Select(['r' => self::MAIN_TABLE]);
-        $select->columns([
-            'id'   => 'r.id',
-            'name' => 'r.name',
-        ], false);
-        $select->where(['r.id = ?' => $id]);
+        $select = $this->getSelect();
+        $select->where([sprintf('%s.id', self::ROLES) => $id]);
         $object = Extracter::extractValue($select, $this->db, $this->prototype);
         assert(is_null($object) || $object instanceof Role);
         return $object;

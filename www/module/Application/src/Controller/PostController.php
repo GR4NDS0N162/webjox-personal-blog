@@ -53,6 +53,10 @@ class PostController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
+        $categoriesElement = $this->postForm->get('categories');
+        assert($categoriesElement instanceof MultiCheckbox);
+        $categoriesElement->setValueOptions($this->getOptions());
+
         $postId = $this->params()->fromRoute('id');
         if (!is_null($postId)) {
             $post = $this->postRepository->findById((int)$postId);
@@ -65,9 +69,6 @@ class PostController extends AbstractActionController
                 $selected[] = $category->getId();
             }
 
-            $categoriesElement = $this->postForm->get('categories');
-            assert($categoriesElement instanceof MultiCheckbox);
-            $categoriesElement->setValueOptions($this->getOptions());
             $categoriesElement->setValue($selected);
 
             $this->postForm->setData(['post' => $post->getHydrator()->extract($post)]);

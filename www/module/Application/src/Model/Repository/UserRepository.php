@@ -11,7 +11,7 @@ use Laminas\Db\Sql\Select;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public const MAIN_TABLE = 'users';
+    public const USERS = 'users';
 
     public function __construct(
         private AdapterInterface $db,
@@ -23,17 +23,26 @@ class UserRepository implements UserRepositoryInterface
      */
     public function findById(int $id): ?User
     {
-        $select = new Select(['u' => self::MAIN_TABLE]);
-        $select->columns([
-            'id'       => 'u.id',
-            'email'    => 'u.email',
-            'password' => 'u.password',
-            'role_id'  => 'u.role_id',
-        ], false);
-        $select->where(['u.id = ?' => $id]);
+        $select = $this->getSelect();
+        $select->where([sprintf('%s.id', self::USERS) => $id]);
         $object = Extracter::extractValue($select, $this->db, $this->prototype);
         assert(is_null($object) || $object instanceof User);
         return $object;
+    }
+
+    /**
+     * @return Select
+     */
+    private function getSelect(): Select
+    {
+        $select = new Select(self::USERS);
+        $select->columns([
+            'id'       => 'id',
+            'email'    => 'email',
+            'password' => 'password',
+            'role_id'  => 'role_id',
+        ]);
+        return $select;
     }
 
     /**
@@ -41,14 +50,8 @@ class UserRepository implements UserRepositoryInterface
      */
     public function findByEmail(string $email): ?User
     {
-        $select = new Select(['u' => self::MAIN_TABLE]);
-        $select->columns([
-            'id'       => 'u.id',
-            'email'    => 'u.email',
-            'password' => 'u.password',
-            'role_id'  => 'u.role_id',
-        ], false);
-        $select->where(['u.email = ?' => $email]);
+        $select = $this->getSelect();
+        $select->where([sprintf('%s.email', self::USERS) => $email]);
         $object = Extracter::extractValue($select, $this->db, $this->prototype);
         assert(is_null($object) || $object instanceof User);
         return $object;
@@ -59,13 +62,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function findUsers(): array
     {
-        $select = new Select(['u' => self::MAIN_TABLE]);
-        $select->columns([
-            'id'       => 'u.id',
-            'email'    => 'u.email',
-            'password' => 'u.password',
-            'role_id'  => 'u.role_id',
-        ], false);
+        $select = $this->getSelect();
         return Extracter::extractValues($select, $this->db, $this->prototype);
     }
 }
