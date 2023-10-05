@@ -66,12 +66,20 @@ return [
             ],
         ],
         'post'     => [
-            'type'          => Literal::class,
+            'type'          => Segment::class,
             'options'       => [
-                'route'    => '/post',
+                'route'    => '/post[/count/:count[/page/:page]]',
                 'defaults' => [
                     'controller' => PostController::class,
                     'action'     => 'index',
+                    'count'      => PostController::DEFAULT_COUNT_PER_PAGE,
+                    'page'       => 1,
+                ],
+                'options'  => [
+                    'constraints' => [
+                        'count' => '[1-9][0-9]*',
+                        'page'  => '[1-9][0-9]*',
+                    ],
                 ],
             ],
             'may_terminate' => true,

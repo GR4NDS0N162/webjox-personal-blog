@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application\Model\Repository;
 
 use Application\Helper\Repository\Extracter;
+use Application\Helper\Repository\SqlBuilder;
 use Application\Model\Entity\Post;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Sql\Select;
@@ -34,20 +35,7 @@ class PostRepository implements PostRepositoryInterface
      */
     private function getSelect(): Select
     {
-        $select = new Select(self::POSTS);
-        $select->columns([
-            'id'      => 'id',
-            'content' => 'content',
-        ]);
-        $select->join(
-            self::STATUSES,
-            sprintf('%s.status_id = %s.id', self::POSTS, self::STATUSES),
-            [
-                'status_id'   => 'id',
-                'status_name' => 'name',
-            ],
-        );
-        return $select;
+        return SqlBuilder::getPostSelect();
     }
 
     /**

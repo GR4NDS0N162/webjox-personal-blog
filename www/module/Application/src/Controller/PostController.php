@@ -6,20 +6,30 @@ namespace Application\Controller;
 
 use Application\Form\Post\PostForm;
 use Application\Helper\Controller\Validator;
+use Application\Helper\Repository\SqlBuilder;
 use Application\Model\Command\PostCommandInterface;
 use Application\Model\Entity\Post;
 use Application\Model\Repository\CategoryRepositoryInterface;
+use Application\Model\Repository\PostRepository;
 use Application\Model\Repository\PostRepositoryInterface;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\ResultSet\HydratingResultSet;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Select;
 use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\FormElementManager;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
+use Laminas\Paginator\Paginator;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Session\Container as SessionContainer;
 use Laminas\View\Model\ViewModel;
 
 class PostController extends AbstractActionController
 {
+    public const DEFAULT_COUNT_PER_PAGE = 5;
+
     private PostForm $postForm;
 
     public function __construct(
@@ -29,6 +39,8 @@ class PostController extends AbstractActionController
         private PostRepositoryInterface $postRepository,
         private CategoryRepositoryInterface $categoryRepository,
         private PostCommandInterface $postCommand,
+        private AdapterInterface $adapter,
+        private Post $prototype,
     ) {
         $this->postForm = $this->formElementManager->get(PostForm::class);
     }
@@ -39,12 +51,41 @@ class PostController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
-        $posts = $this->postRepository->findAll();
+        $paginator = $this->getPaginator();
 
         return new ViewModel([
-            'posts'   => $posts,
-            'isAdmin' => Validator::isAdmin($this->sessionContainer),
+            'paginator' => $paginator,
+            'count'     => $paginator->getItemCountPerPage(),
+            'isAdmin'   => Validator::isAdmin($this->sessionContainer),
         ]);
+    }
+
+    private function getPaginator(): Paginator
+    {
+        $select = SqlBuilder::getPostSelect();
+
+        $countSelect = new Select(PostRepository::POSTS);
+        $countSelect->columns([DbSelect::ROW_COUNT_COLUMN_NAME => new Expression('COUNT(*)')]);
+
+        $dbSelect = new DbSelect(
+            $select,
+            $this->adapter,
+            new HydratingResultSet($this->prototype->getHydrator(), $this->prototype),
+            $countSelect
+        );
+
+        $paginator = new Paginator($dbSelect);
+
+        $count = (int)$this->params()->fromRoute('count');
+        if ($count < 1) {
+            $count = self::DEFAULT_COUNT_PER_PAGE;
+        }
+        $paginator->setItemCountPerPage($count);
+
+        $page = $this->params()->fromRoute('page');
+        $paginator->setCurrentPageNumber((int)$page);
+
+        return $paginator;
     }
 
     public function editAction(): ViewModel|Response

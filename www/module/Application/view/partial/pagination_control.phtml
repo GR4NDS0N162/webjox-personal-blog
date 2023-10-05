@@ -1,0 +1,39 @@
+<?php
+/**
+ * @var PhpRenderer|HelperTrait $this
+ * @var string                  $route
+ * @var int                     $first            First page number (typically 1).
+ * @var int                     $firstItemNumber  Absolute number of the first item on this page.
+ * @var int                     $firstPageInRange First page in the range returned by the scrolling style.
+ * @var int                     $current          Current page number.
+ * @var int                     $currentItemCount Number of items on this page.
+ * @var int                     $itemCountPerPage Maximum number of items available to each page.
+ * @var int                     $last             Last page number.
+ * @var int                     $lastItemNumber   Absolute number of the last item on this page.
+ * @var int                     $lastPageInRange  Last page in the range returned by the scrolling style.
+ * @var int                     $next             Next page number.
+ * @var int                     $pageCount        Number of pages.
+ * @var array                   $pagesInRange     Array of pages returned by the scrolling style.
+ * @var int                     $previous         Previous page number.
+ * @var int                     $totalItemCount   Total number of items.
+ */
+
+use Laminas\Form\View\HelperTrait;
+use Laminas\View\Renderer\PhpRenderer;
+
+$this->inlineScript()
+    ->appendFile($this->basePath('js/jquery-3.7.1.min.js'))
+    ->appendFile($this->basePath('js/pagination-control.js'));
+?>
+<?php if ($pageCount): ?>
+    <div class="input-group">
+        <label class="input-group-text" for="pagination-control">Page</label>
+        <select class="form-select" id="pagination-control">
+            <?php foreach ($pagesInRange as $page): ?>
+                <?php $selected = ($page == $current) ? ' selected' : ''; ?>
+                <option value="<?= $this->url($route,
+                    ['page' => $page, 'count' => $itemCountPerPage,]); ?>"<?= $selected; ?>><?= $page; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+<?php endif; ?>

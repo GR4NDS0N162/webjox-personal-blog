@@ -1,47 +1,72 @@
 <?php
 /**
  * @var PhpRenderer|HelperTrait $this
- * @var Post[]                  $posts
+ * @var Paginator               $paginator
+ * @var int                     $count
  * @var bool                    $isAdmin
  */
 
-use Application\Model\Entity\Post;
 use Laminas\Form\View\HelperTrait;
+use Laminas\Paginator\Paginator;
 use Laminas\View\Renderer\PhpRenderer;
 
 ?>
 <div class="row g-3">
+    <?php if ($isAdmin): ?>
+        <div class="col-12">
+            <a class="btn btn-outline-success w-100" href="<?= $this->url('post/edit'); ?>">Add</a>
+        </div>
+    <?php endif; ?>
     <div class="col-12">
         <div class="row g-3" id="post-list">
-            <?php if ($isAdmin): ?>
-                <div class="col-12">
-                    <a class="btn btn-outline-success w-100" href="<?= $this->url('post/edit'); ?>">Add</a>
-                </div>
-            <?php endif; ?>
-            <?php foreach ($posts as $post): ?>
-                <div class="col-12">
-                    <div class="card p-3">
-                        <div class="row g-3">
-                            <div class="col-auto">
-                                <h2>Post #<?= $post->getId(); ?></h2>
-                            </div>
-                            <div class="col-auto">
-                                <a class="btn btn-outline-primary w-100" href="<?= $this->url('post/edit',
-                                    ['id' => $post->getId()]); ?>">Edit</a>
-                            </div>
-                            <?php if ($isAdmin): ?>
+            <?php if (count($paginator)): ?>
+                <?php foreach ($paginator as $post): ?>
+                    <div class="col-12">
+                        <div class="card p-3">
+                            <div class="row g-3">
                                 <div class="col-auto">
-                                    <a class="btn btn-outline-danger w-100" href="<?= $this->url('post/delete',
-                                        ['id' => $post->getId()]); ?>">Delete</a>
+                                    <h2>Post #<?= $post->getId(); ?></h2>
                                 </div>
-                            <?php endif; ?>
-                            <div class="col-12">
-                                <p class="mb-0"><?= $post->getContent(); ?></p>
+                                <div class="col-auto">
+                                    <a class="btn btn-outline-primary w-100" href="<?= $this->url('post/edit',
+                                        ['id' => $post->getId()]); ?>">Edit</a>
+                                </div>
+                                <?php if ($isAdmin): ?>
+                                    <div class="col-auto">
+                                        <a class="btn btn-outline-danger w-100" href="<?= $this->url('post/delete',
+                                            ['id' => $post->getId()]); ?>">Delete</a>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="col-12">
+                                    <p class="mb-0"><?= $post->getContent(); ?></p>
+                                </div>
                             </div>
                         </div>
                     </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-12">There are no posts.</div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="row g-3 justify-content-center">
+            <div class="col-auto">
+                <?= $this->paginationControl(
+                    $paginator,
+                    'Sliding',
+                    'pagination_control',
+                    ['route' => 'post']
+                ); ?>
+            </div>
+            <div class="col-auto">
+                <div class="input-group">
+                    <span class="input-group-text" id="count-per-page-label">Count</span>
+                    <input type="number" class="form-control" id="count-per-page" aria-label="Count" min="1"
+                           aria-describedby="count-per-page-label" data-redirect-location="<?= $this->url('post',
+                        ['count' => '__count__']); ?>" value="<?= $count; ?>">
                 </div>
-            <?php endforeach; ?>
+            </div>
         </div>
     </div>
 </div>
