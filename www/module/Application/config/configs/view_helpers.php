@@ -25,7 +25,8 @@ return [
         'FormRow'             => FormRow::class,
     ],
     'factories' => [
-        FormCollection::class => InvokableFactory::class,
-        FormRow::class        => InvokableFactory::class,
+        FormMultiCheckbox::class => InvokableFactory::class,
+        FormCollection::class    => InvokableFactory::class,
+        FormRow::class           => InvokableFactory::class,
     ],
 ];
