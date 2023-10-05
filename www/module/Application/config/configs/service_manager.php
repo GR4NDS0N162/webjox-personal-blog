@@ -17,6 +17,8 @@ use Application\Model\Options\RoleOptions;
 use Application\Model\Options\StatusOptions;
 use Application\Model\Repository\CategoryRepository;
 use Application\Model\Repository\CategoryRepositoryInterface;
+use Application\Model\Repository\ImageRepository;
+use Application\Model\Repository\ImageRepositoryInterface;
 use Application\Model\Repository\PostRepository;
 use Application\Model\Repository\PostRepositoryInterface;
 use Application\Model\Repository\RoleRepository;
@@ -36,6 +38,7 @@ return [
         RoleRepositoryInterface::class     => RoleRepository::class,
         UserRepositoryInterface::class     => UserRepository::class,
         PostRepositoryInterface::class     => PostRepository::class,
+        ImageRepositoryInterface::class    => ImageRepository::class,
         CategoryRepositoryInterface::class => CategoryRepository::class,
         StatusRepositoryInterface::class   => StatusRepository::class,
     ],
@@ -50,6 +53,7 @@ return [
         RoleRepository::class     => ReflectionBasedAbstractFactory::class,
         UserRepository::class     => ReflectionBasedAbstractFactory::class,
         PostRepository::class     => ReflectionBasedAbstractFactory::class,
+        ImageRepository::class    => ReflectionBasedAbstractFactory::class,
         CategoryRepository::class => ReflectionBasedAbstractFactory::class,
         StatusRepository::class   => ReflectionBasedAbstractFactory::class,
         StatusOptions::class      => ReflectionBasedAbstractFactory::class,
