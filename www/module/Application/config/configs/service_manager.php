@@ -14,12 +14,15 @@ use Application\Model\Entity\Category;
 use Application\Model\Entity\Role;
 use Application\Model\Entity\User;
 use Application\Model\Options\RoleOptions;
+use Application\Model\Options\StatusOptions;
 use Application\Model\Repository\CategoryRepository;
 use Application\Model\Repository\CategoryRepositoryInterface;
 use Application\Model\Repository\PostRepository;
 use Application\Model\Repository\PostRepositoryInterface;
 use Application\Model\Repository\RoleRepository;
 use Application\Model\Repository\RoleRepositoryInterface;
+use Application\Model\Repository\StatusRepository;
+use Application\Model\Repository\StatusRepositoryInterface;
 use Application\Model\Repository\UserRepository;
 use Application\Model\Repository\UserRepositoryInterface;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
@@ -34,6 +37,7 @@ return [
         UserRepositoryInterface::class     => UserRepository::class,
         PostRepositoryInterface::class     => PostRepository::class,
         CategoryRepositoryInterface::class => CategoryRepository::class,
+        StatusRepositoryInterface::class   => StatusRepository::class,
     ],
     'factories'          => [
         Category::class           => InvokableFactory::class,
@@ -47,6 +51,8 @@ return [
         UserRepository::class     => ReflectionBasedAbstractFactory::class,
         PostRepository::class     => ReflectionBasedAbstractFactory::class,
         CategoryRepository::class => ReflectionBasedAbstractFactory::class,
+        StatusRepository::class   => ReflectionBasedAbstractFactory::class,
+        StatusOptions::class      => ReflectionBasedAbstractFactory::class,
     ],
     'services'           => [
     ],

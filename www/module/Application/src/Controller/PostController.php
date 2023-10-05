@@ -85,6 +85,28 @@ class PostController extends AbstractActionController
         ]);
     }
 
+    /**
+     * @return array
+     */
+    private function getOptions(): array
+    {
+        $options = [];
+        foreach ($this->categoryRepository->findAll() as $category) {
+            $id = 'category_option_' . $category->getId();
+            $options[] = [
+                'value'            => $category->getId(),
+                'label'            => $category->getName(),
+                'attributes'       => [
+                    'id' => $id,
+                ],
+                'label_attributes' => [
+                    'for' => $id,
+                ],
+            ];
+        }
+        return $options;
+    }
+
     public function saveAction(): Response
     {
         if (!Validator::isValidSession($this->sessionContainer)) {
@@ -149,27 +171,5 @@ class PostController extends AbstractActionController
         $this->postCommand->deleteById((int)$postId);
 
         return $this->redirect()->toRoute('post');
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptions(): array
-    {
-        $options = [];
-        foreach ($this->categoryRepository->findAll() as $category) {
-            $id = 'category_option_' . $category->getId();
-            $options[] = [
-                'value'            => $category->getId(),
-                'label'            => $category->getName(),
-                'attributes'       => [
-                    'id' => $id,
-                ],
-                'label_attributes' => [
-                    'for' => $id,
-                ],
-            ];
-        }
-        return $options;
     }
 }

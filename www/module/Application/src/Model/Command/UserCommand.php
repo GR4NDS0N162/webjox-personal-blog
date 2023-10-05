@@ -12,7 +12,7 @@ use Laminas\Db\Sql\Insert;
 
 class UserCommand implements UserCommandInterface
 {
-    public const MAIN_TABLE = 'users';
+    public const USERS = 'users';
 
     public function __construct(
         private AdapterInterface $db,
@@ -26,7 +26,7 @@ class UserCommand implements UserCommandInterface
             return null;
         }
 
-        $insert = new Insert(self::MAIN_TABLE);
+        $insert = new Insert(self::USERS);
         $insert->values([
             'email'    => $user->getEmail(),
             'password' => $user->getPassword(),

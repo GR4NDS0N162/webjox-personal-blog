@@ -15,8 +15,8 @@ use Laminas\Db\Sql\Update;
 
 class PostCommand implements PostCommandInterface
 {
-    public const MAIN_TABLE = 'posts';
-    public const LINK_TABLE = 'posts_categories';
+    public const POSTS = 'posts';
+    public const POSTS_CATEGORIES = 'posts_categories';
 
     public function __construct(
         private AdapterInterface $adapter,
@@ -46,7 +46,7 @@ class PostCommand implements PostCommandInterface
             }
         }
 
-        $insert = new Insert(self::LINK_TABLE);
+        $insert = new Insert(self::POSTS_CATEGORIES);
         $insert->values([
             'post_id'     => $postId,
             'category_id' => $categoryId,
@@ -59,7 +59,7 @@ class PostCommand implements PostCommandInterface
      */
     public function removePostFromCategory(int $postId, int $categoryId): void
     {
-        $delete = new Delete(self::LINK_TABLE);
+        $delete = new Delete(self::POSTS_CATEGORIES);
         $delete->where([
             'post_id'     => $postId,
             'category_id' => $categoryId,
@@ -72,7 +72,7 @@ class PostCommand implements PostCommandInterface
      */
     public function deleteById(int $id): void
     {
-        $delete = new Delete(self::MAIN_TABLE);
+        $delete = new Delete(self::POSTS);
         $delete->where(['id' => $id]);
         Executer::executeSql($delete, $this->adapter);
     }
@@ -82,9 +82,12 @@ class PostCommand implements PostCommandInterface
      */
     public function update(Post $post): void
     {
-        $update = new Update(self::MAIN_TABLE);
+        $update = new Update(self::POSTS);
         $update->where(['id' => $post->getId()]);
-        $update->set(['content' => $post->getContent()]);
+        $update->set([
+            'content'   => $post->getContent(),
+            'status_id' => $post->getStatusId(),
+        ]);
         Executer::executeSql($update, $this->adapter);
     }
 
@@ -93,8 +96,11 @@ class PostCommand implements PostCommandInterface
      */
     public function insert(Post $post): mixed
     {
-        $insert = new Insert(self::MAIN_TABLE);
-        $insert->values(['content' => $post->getContent()]);
+        $insert = new Insert(self::POSTS);
+        $insert->values([
+            'content'   => $post->getContent(),
+            'status_id' => $post->getStatusId(),
+        ]);
         return Executer::executeSql($insert, $this->adapter);
     }
 
