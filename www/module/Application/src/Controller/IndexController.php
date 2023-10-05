@@ -75,7 +75,7 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
 
-        if (strcmp($user->getPassword(), $foundUser->getPassword()) != 0) {
+        if (!password_verify($user->getPassword(), $foundUser->getPassword())) {
             return $this->redirect()->toRoute('home');
         }
 
@@ -111,6 +111,7 @@ class IndexController extends AbstractActionController
         if (strcmp($user->getPassword(), $data['password_check']) != 0) {
             return $this->redirect()->toRoute('home');
         }
+        $user->setPassword(password_hash($user->getPassword(), PASSWORD_DEFAULT));
 
         $foundUser = $this->userRepository->findByEmail($user->getEmail());
         if (!is_null($foundUser)) {
