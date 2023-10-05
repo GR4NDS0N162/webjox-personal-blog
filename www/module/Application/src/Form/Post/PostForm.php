@@ -46,7 +46,7 @@ class PostForm extends Form
                 ],
                 FormRow::WRAPPER_CLASS                   => 'col-12',
                 FormMultiCheckbox::OPTIONS_WRAPPER_CLASS => 'row g-3',
-                FormMultiCheckbox::OPTION_WRAPPER_CLASS  => 'col-12',
+                FormMultiCheckbox::OPTION_WRAPPER_CLASS  => 'col-12 col-md-6 col-xl-4',
                 FormMultiCheckbox::INPUT_WRAPPER_CLASS   => 'form-check',
             ],
         ]);
