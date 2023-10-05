@@ -62,7 +62,17 @@ class PostController extends AbstractActionController
 
             $options = [];
             foreach ($this->categoryRepository->findAll() as $category) {
-                $options[$category->getId()] = $category->getName();
+                $id = 'category_option_' . $category->getId();
+                $options[$category->getId()] = [
+                    'value'            => $category->getId(),
+                    'label'            => $category->getName(),
+                    'attributes'       => [
+                        'id' => $id,
+                    ],
+                    'label_attributes' => [
+                        'for' => $id,
+                    ],
+                ];
             }
             $selected = [];
             foreach ($this->categoryRepository->findByPostId($post->getId()) as $category) {
