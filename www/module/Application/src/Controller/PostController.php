@@ -60,20 +60,6 @@ class PostController extends AbstractActionController
                 return $this->redirect()->toRoute('post');
             }
 
-            $options = [];
-            foreach ($this->categoryRepository->findAll() as $category) {
-                $id = 'category_option_' . $category->getId();
-                $options[$category->getId()] = [
-                    'value'            => $category->getId(),
-                    'label'            => $category->getName(),
-                    'attributes'       => [
-                        'id' => $id,
-                    ],
-                    'label_attributes' => [
-                        'for' => $id,
-                    ],
-                ];
-            }
             $selected = [];
             foreach ($this->categoryRepository->findByPostId($post->getId()) as $category) {
                 $selected[] = $category->getId();
@@ -81,7 +67,7 @@ class PostController extends AbstractActionController
 
             $categoriesElement = $this->postForm->get('categories');
             assert($categoriesElement instanceof MultiCheckbox);
-            $categoriesElement->setValueOptions($options);
+            $categoriesElement->setValueOptions($this->getOptions());
             $categoriesElement->setValue($selected);
 
             $this->postForm->setData(['post' => $post->getHydrator()->extract($post)]);
@@ -110,6 +96,9 @@ class PostController extends AbstractActionController
         }
 
         $form = $this->postForm;
+        $categoriesElement = $form->get('categories');
+        assert($categoriesElement instanceof MultiCheckbox);
+        $categoriesElement->setValueOptions($this->getOptions());
 
         $form->setData($request->getPost());
         if (!$form->isValid()) {
@@ -126,11 +115,17 @@ class PostController extends AbstractActionController
             if (!Validator::isAdmin($this->sessionContainer)) {
                 return $this->redirect()->toRoute('post');
             }
-            $this->postCommand->insert($post);
+            $post->setId($this->postCommand->insert($post));
         }
         else {
             $this->postCommand->update($post);
         }
+
+        $categoryIds = [];
+        foreach ($data['categories'] ?: [] as $id) {
+            $categoryIds[] = (int)$id;
+        }
+        $this->postCommand->updateCategories($post->getId(), $categoryIds);
 
         return $this->redirect()->toRoute('post');
     }
@@ -153,5 +148,27 @@ class PostController extends AbstractActionController
         $this->postCommand->deleteById((int)$postId);
 
         return $this->redirect()->toRoute('post');
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        $options = [];
+        foreach ($this->categoryRepository->findAll() as $category) {
+            $id = 'category_option_' . $category->getId();
+            $options[] = [
+                'value'            => $category->getId(),
+                'label'            => $category->getName(),
+                'attributes'       => [
+                    'id' => $id,
+                ],
+                'label_attributes' => [
+                    'for' => $id,
+                ],
+            ];
+        }
+        return $options;
     }
 }

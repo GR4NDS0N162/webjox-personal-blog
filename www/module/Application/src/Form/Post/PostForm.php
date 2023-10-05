@@ -10,8 +10,9 @@ use Application\View\Helper\FormRow;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\Form;
+use Laminas\InputFilter\InputFilterProviderInterface;
 
-class PostForm extends Form
+class PostForm extends Form implements InputFilterProviderInterface
 {
     /**
      * @inheritDoc
@@ -63,5 +64,22 @@ class PostForm extends Form
                 FormRow::WRAPPER_CLASS => 'col-12',
             ],
         ], ['priority' => -10 ** 9]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getInputFilterSpecification(): array
+    {
+        return [
+            [
+                'name'        => 'categories',
+                'allow_empty' => true,
+                'filters'     => [
+                ],
+                'validators'  => [
+                ],
+            ],
+        ];
     }
 }

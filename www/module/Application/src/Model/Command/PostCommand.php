@@ -91,10 +91,33 @@ class PostCommand implements PostCommandInterface
     /**
      * @inheritDoc
      */
-    public function insert(Post $post): void
+    public function insert(Post $post): mixed
     {
         $insert = new Insert(self::MAIN_TABLE);
         $insert->values(['content' => $post->getContent()]);
-        Executer::executeSql($insert, $this->adapter);
+        return Executer::executeSql($insert, $this->adapter);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function updateCategories(int $postId, array $categoryIds): void
+    {
+        $old = [];
+        foreach ($this->categoryRepository->findByPostId($postId) as $category) {
+            $old[] = $category->getId();
+        }
+
+        foreach ($old as $id) {
+            if (!in_array($id, $categoryIds)) {
+                $this->removePostFromCategory($postId, $id);
+            }
+        }
+
+        foreach ($categoryIds as $id) {
+            if (!in_array($id, $old)) {
+                $this->addPostToCategory($postId, $id);
+            }
+        }
     }
 }
