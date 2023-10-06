@@ -10,11 +10,12 @@ class FormCollection extends \Laminas\Form\View\Helper\FormCollection
 {
     public function __construct()
     {
-        $this->setTemplateWrapper('<span data-template="%s" class="d-none"></span>');
-        $this->setWrapper('<fieldset%4$s>%2$s%3$s' .
+        $this->setWrapper('<fieldset%4$s>%2$s%3$s%1$s</fieldset>');
+        $this->setTemplateWrapper(
+            '<span data-template="%s" class="d-none"></span>' .
             '<style>.list-notification { display: none; } .list-notification:last-child { display: block; }</style>' .
-            '<div class="list-notification">The list is empty.</div>' .
-            '%1$s</fieldset>');
+            '<div class="list-notification">The list is empty.</div>'
+        );
     }
 
     /**
