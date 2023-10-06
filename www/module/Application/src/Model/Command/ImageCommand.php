@@ -10,6 +10,7 @@ use Application\Model\Repository\PostRepositoryInterface;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Sql\Delete;
 use Laminas\Db\Sql\Insert;
+use RuntimeException;
 
 class ImageCommand implements ImageCommandInterface
 {
@@ -32,7 +33,9 @@ class ImageCommand implements ImageCommandInterface
             $path = '/var/www/public/img/post/' . $name . '.png';
         }
         while (file_exists($path));
-        rename($file['tmp_name'], $path);
+        if (!rename($file['tmp_name'], $path)) {
+            throw new RuntimeException('Couldn\'t move the file');
+        }
 
         $insert = new Insert(self::IMAGES);
         $insert->values([

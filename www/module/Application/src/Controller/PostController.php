@@ -7,6 +7,7 @@ namespace Application\Controller;
 use Application\Form\Post\PostForm;
 use Application\Helper\Controller\Validator;
 use Application\Helper\Repository\SqlBuilder;
+use Application\Model\Command\ImageCommandInterface;
 use Application\Model\Command\PostCommandInterface;
 use Application\Model\Entity\Post;
 use Application\Model\Repository\CategoryRepositoryInterface;
@@ -40,6 +41,7 @@ class PostController extends AbstractActionController
         private CategoryRepositoryInterface $categoryRepository,
         private PostCommandInterface $postCommand,
         private AdapterInterface $adapter,
+        private ImageCommandInterface $imageCommand,
         private Post $prototype,
     ) {
         $this->postForm = $this->formElementManager->get(PostForm::class);
@@ -190,6 +192,11 @@ class PostController extends AbstractActionController
             $categoryIds[] = (int)$id;
         }
         $this->postCommand->updateCategories($post->getId(), $categoryIds);
+
+        foreach ($data['images']['images_to_add'] ?? [] as $imageFieldset) {
+            $file = $imageFieldset['image'];
+            $this->imageCommand->insert($file, $post->getId());
+        }
 
         return $this->redirect()->toRoute('post');
     }
