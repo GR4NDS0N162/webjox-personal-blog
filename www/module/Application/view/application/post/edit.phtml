@@ -11,6 +11,9 @@ use Application\Form\Post\PostForm;
 use Laminas\Form\View\HelperTrait;
 use Laminas\View\Renderer\PhpRenderer;
 
+$this->inlineScript()
+    ->appendFile($this->basePath('js/jquery-3.7.1.min.js'))
+    ->appendFile($this->basePath('js/collection-manipulation.js'));
 ?>
 <?php if (is_null($postId)): ?>
     <h2>New Post</h2>
