@@ -5,23 +5,17 @@
  * @var Application\Form\Index\SignUpForm                               $signUpForm
  */
 ?>
-<div class="card p-4 sign-in-card">
-    <h1 class="mb-3">Sign in</h1>
-    <?= $this->form()->render($signInForm); ?>
-    <div class="row gy-2 mt-2">
-        <div class="col-12">
-            <span>Don't have an account?</span>
-            <button class="p-0 border-0 bg-transparent text-success sign-up-show">Sign up</button>
+<div class="row g-3">
+    <div class="col-12">
+        <div class="card p-4 sign-in-card">
+            <h1 class="mb-3">Sign in</h1>
+            <?= $this->form()->render($signInForm); ?>
         </div>
     </div>
-</div>
-<div class="card p-4 sign-up-card">
-    <h1 class="mb-3">Sign up</h1>
-    <?= $this->form()->render($signUpForm); ?>
-    <div class="row gy-2 mt-2">
-        <div class="col-12">
-            <span>Already have an account?</span>
-            <button class="p-0 border-0 bg-transparent text-primary sign-in-show">Sign in</button>
+    <div class="col-12">
+        <div class="card p-4 sign-up-card">
+            <h1 class="mb-3">Sign up</h1>
+            <?= $this->form()->render($signUpForm); ?>
         </div>
     </div>
 </div>
