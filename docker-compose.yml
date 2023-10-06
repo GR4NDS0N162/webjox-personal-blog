@@ -47,7 +47,7 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx
+    build: ./docker/nginx
     ports:
       - target: 80
         published: 80
