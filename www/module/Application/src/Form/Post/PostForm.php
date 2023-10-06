@@ -60,7 +60,6 @@ class PostForm extends Form implements InputFilterProviderInterface
                 'id' => 'post_form-images',
             ],
             'options'    => [
-                'label'                => 'Images',
                 FormRow::WRAPPER_CLASS => 'col-12',
             ],
         ]);

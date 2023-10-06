@@ -11,6 +11,7 @@ use Application\Model\Command\ImageCommandInterface;
 use Application\Model\Command\PostCommandInterface;
 use Application\Model\Entity\Post;
 use Application\Model\Repository\CategoryRepositoryInterface;
+use Application\Model\Repository\ImageRepositoryInterface;
 use Application\Model\Repository\PostRepository;
 use Application\Model\Repository\PostRepositoryInterface;
 use Laminas\Db\Adapter\AdapterInterface;
@@ -42,6 +43,7 @@ class PostController extends AbstractActionController
         private PostCommandInterface $postCommand,
         private AdapterInterface $adapter,
         private ImageCommandInterface $imageCommand,
+        private ImageRepositoryInterface $imageRepository,
         private Post $prototype,
     ) {
         $this->postForm = $this->formElementManager->get(PostForm::class);
@@ -107,6 +109,10 @@ class PostController extends AbstractActionController
                 return $this->redirect()->toRoute('post');
             }
 
+            $imagesToRemoveElement = $this->postForm->get('images')->get('images_to_remove');
+            assert($imagesToRemoveElement instanceof MultiCheckbox);
+            $imagesToRemoveElement->setValueOptions($this->getImageToRemoveOptions($post->getId()));
+
             $selected = [];
             foreach ($this->categoryRepository->findByPostId($post->getId()) as $category) {
                 $selected[] = $category->getId();
@@ -139,6 +145,26 @@ class PostController extends AbstractActionController
             $options[] = [
                 'value'            => $category->getId(),
                 'label'            => $category->getName(),
+                'attributes'       => [
+                    'id' => $id,
+                ],
+                'label_attributes' => [
+                    'for' => $id,
+                ],
+            ];
+        }
+        return $options;
+    }
+
+    private function getImageToRemoveOptions(int $postId): array
+    {
+        $options = [];
+        foreach ($this->imageRepository->findByPostId($postId) as $image) {
+            $id = 'image_to_remove_option_' . $image->getId();
+            $src = substr($image->getPath(), strlen('/var/www/public'));
+            $options[] = [
+                'value'            => $image->getId(),
+                'label'            => sprintf('<img src="%s" alt="%s">', $src, $id),
                 'attributes'       => [
                     'id' => $id,
                 ],

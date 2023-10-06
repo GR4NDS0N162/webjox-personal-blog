@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Application\Fieldset;
 
+use Application\View\Helper\FormMultiCheckbox;
 use Application\View\Helper\FormRow;
 use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Collection;
+use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\Fieldset;
 
 class ImageFieldset extends Fieldset
 {
     public const CONTAINER_ID = 'images_to_add-container';
+    public const REMOVE_CONTAINER_ID = 'images_to_remove-container';
 
     /**
      * @inheritDoc
@@ -21,6 +24,51 @@ class ImageFieldset extends Fieldset
         parent::init();
 
         $this->setAttribute('class', 'row g-3');
+
+        $this->add([
+            'name'       => 'images_to_remove',
+            'type'       => MultiCheckbox::class,
+            'attributes' => [
+                'class' => 'form-check-input',
+            ],
+            'options'    => [
+                'label'                                  => 'Images to remove',
+                'label_attributes'                       => [
+                    'class' => 'form-check-label',
+                ],
+                'label_options' => [
+                    'disable_html_escape' => true,
+                ],
+                FormRow::WRAPPER_CLASS                   => 'col-12',
+                FormMultiCheckbox::OPTIONS_WRAPPER_CLASS => 'row g-3',
+                FormMultiCheckbox::OPTION_WRAPPER_CLASS  => 'col-auto',
+                FormMultiCheckbox::INPUT_WRAPPER_CLASS   => 'form-check',
+            ],
+        ]);
+
+        $this->add([
+            'name'       => 'images_to_add',
+            'type'       => Collection::class,
+            'attributes' => [
+                'class' => 'row g-3',
+                'id'    => self::CONTAINER_ID,
+            ],
+            'options'    => [
+                'label'                  => 'Images to add',
+                'count'                  => 0,
+                'allow_add'              => true,
+                'allow_remove'           => true,
+                'should_create_template' => true,
+                'template_placeholder'   => '__index__',
+                'target_element'         => [
+                    'type'    => ImageToAddFieldset::class,
+                    'options' => [
+                        FormRow::WRAPPER_CLASS => 'col-12 col-lg-6',
+                    ],
+                ],
+                FormRow::WRAPPER_CLASS   => 'col-12',
+            ],
+        ]);
 
         $this->add([
             'name'       => 'add',
@@ -34,29 +82,6 @@ class ImageFieldset extends Fieldset
             'options'    => [
                 'label'                => 'Add',
                 FormRow::WRAPPER_CLASS => 'col-12',
-            ],
-        ], ['priority' => 10 ** 9]);
-
-        $this->add([
-            'name'       => 'images_to_add',
-            'type'       => Collection::class,
-            'attributes' => [
-                'class' => 'row g-3',
-                'id'    => self::CONTAINER_ID,
-            ],
-            'options'    => [
-                'count'                  => 0,
-                'allow_add'              => true,
-                'allow_remove'           => true,
-                'should_create_template' => true,
-                'template_placeholder'   => '__index__',
-                'target_element'         => [
-                    'type'    => ImageToAddFieldset::class,
-                    'options' => [
-                        FormRow::WRAPPER_CLASS => 'col-12 col-lg-6',
-                    ],
-                ],
-                FormRow::WRAPPER_CLASS   => 'col-12',
             ],
         ]);
     }
