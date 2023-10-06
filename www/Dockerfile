@@ -17,4 +17,4 @@ RUN docker-php-ext-enable xdebug
 
 WORKDIR /var/www
 
-ENTRYPOINT ["sh", "-c", "composer install && php-fpm"]
+ENTRYPOINT ["sh", "-c", "composer install && php-fpm && chmod ug+r -R /var/www/public"]
