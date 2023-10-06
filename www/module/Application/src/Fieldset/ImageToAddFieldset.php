@@ -23,8 +23,8 @@ class ImageToAddFieldset extends Fieldset
             'name'       => 'image',
             'type'       => File::class,
             'attributes' => [
-                'required' => 'required',
-                'class'    => 'form-control',
+                'class'  => 'form-control',
+                'accept' => 'image/png',
             ],
         ]);
 

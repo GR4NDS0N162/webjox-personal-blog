@@ -45,7 +45,7 @@ class ImageFieldset extends Fieldset
                 'id'    => self::CONTAINER_ID,
             ],
             'options'    => [
-                'count'                  => 3,
+                'count'                  => 1,
                 'allow_add'              => true,
                 'allow_remove'           => true,
                 'should_create_template' => true,

@@ -7,6 +7,7 @@ namespace Application\Model\Command;
 use Application\Helper\Command\Executer;
 use Application\Model\Entity\Post;
 use Application\Model\Repository\CategoryRepositoryInterface;
+use Application\Model\Repository\ImageRepositoryInterface;
 use Application\Model\Repository\PostRepositoryInterface;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Sql\Delete;
@@ -22,6 +23,8 @@ class PostCommand implements PostCommandInterface
         private AdapterInterface $adapter,
         private PostRepositoryInterface $postRepository,
         private CategoryRepositoryInterface $categoryRepository,
+        private ImageRepositoryInterface $imageRepository,
+        private ImageCommandInterface $imageCommand,
     ) {}
 
     /**
@@ -72,6 +75,10 @@ class PostCommand implements PostCommandInterface
      */
     public function deleteById(int $id): void
     {
+        foreach ($this->imageRepository->findByPostId($id) as $image) {
+            $this->imageCommand->removeById($image->getId());
+        }
+
         $delete = new Delete(self::POSTS);
         $delete->where(['id' => $id]);
         Executer::executeSql($delete, $this->adapter);

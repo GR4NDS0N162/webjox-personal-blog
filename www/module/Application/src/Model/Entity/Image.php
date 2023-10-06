@@ -17,6 +17,7 @@ class Image implements HydratorAwareInterface
     public function __construct(
         private ?int $id = null,
         private ?string $path = null,
+        private ?int $postId = null,
     ) {}
 
     public function getId(): ?int
@@ -41,6 +42,17 @@ class Image implements HydratorAwareInterface
         return $this;
     }
 
+    public function getPostId(): ?int
+    {
+        return $this->postId;
+    }
+
+    public function setPostId(?int $postId): Image
+    {
+        $this->postId = $postId;
+        return $this;
+    }
+
     /**
      * @inheritDoc
      */
@@ -62,6 +74,7 @@ class Image implements HydratorAwareInterface
 
         $this->hydrator->addStrategy('id', new NullableStrategy(ScalarTypeStrategy::createToInt(), true));
         $this->hydrator->addStrategy('path', new NullableStrategy(ScalarTypeStrategy::createToString(), true));
+        $this->hydrator->addStrategy('post_id', new NullableStrategy(ScalarTypeStrategy::createToInt(), true));
 
         return $this->hydrator;
     }

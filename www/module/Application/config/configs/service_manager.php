@@ -6,6 +6,8 @@ namespace Application;
 
 use Application\Model\Command\CategoryCommand;
 use Application\Model\Command\CategoryCommandInterface;
+use Application\Model\Command\ImageCommand;
+use Application\Model\Command\ImageCommandInterface;
 use Application\Model\Command\PostCommand;
 use Application\Model\Command\PostCommandInterface;
 use Application\Model\Command\UserCommand;
@@ -41,6 +43,7 @@ return [
         ImageRepositoryInterface::class    => ImageRepository::class,
         CategoryRepositoryInterface::class => CategoryRepository::class,
         StatusRepositoryInterface::class   => StatusRepository::class,
+        ImageCommandInterface::class       => ImageCommand::class,
     ],
     'factories'          => [
         Category::class           => InvokableFactory::class,
@@ -57,6 +60,7 @@ return [
         CategoryRepository::class => ReflectionBasedAbstractFactory::class,
         StatusRepository::class   => ReflectionBasedAbstractFactory::class,
         StatusOptions::class      => ReflectionBasedAbstractFactory::class,
+        ImageCommand::class       => ReflectionBasedAbstractFactory::class,
     ],
     'services'           => [
     ],

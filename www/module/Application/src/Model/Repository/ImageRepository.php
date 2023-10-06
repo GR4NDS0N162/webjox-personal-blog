@@ -12,7 +12,6 @@ use Laminas\Db\Sql\Select;
 class ImageRepository implements ImageRepositoryInterface
 {
     public const IMAGES = 'images';
-    public const POSTS_IMAGES = 'posts_images';
 
     public function __construct(
         private AdapterInterface $adapter,
@@ -25,7 +24,7 @@ class ImageRepository implements ImageRepositoryInterface
     public function findById(int $id): ?Image
     {
         $select = $this->getSelect();
-        $select->where([sprintf('%s.id', self::IMAGES) => $id]);
+        $select->where(['id' => $id]);
         $object = Extracter::extractValue($select, $this->adapter, $this->prototype);
         assert(is_null($object) || $object instanceof Image);
         return $object;
@@ -38,8 +37,9 @@ class ImageRepository implements ImageRepositoryInterface
     {
         $select = new Select(self::IMAGES);
         $select->columns([
-            'id'   => 'id',
-            'path' => 'path',
+            'id'      => 'id',
+            'path'    => 'path',
+            'post_id' => 'post_id',
         ]);
         return $select;
     }
@@ -50,12 +50,7 @@ class ImageRepository implements ImageRepositoryInterface
     public function findByPostId(int $postId): array
     {
         $select = $this->getSelect();
-        $select->join(
-            self::POSTS_IMAGES,
-            sprintf('%s.image_id = %s.id', self::POSTS_IMAGES, self::IMAGES),
-            [],
-        );
-        $select->where([sprintf('%s.post_id', self::POSTS_IMAGES) => $postId]);
+        $select->where(['post_id' => $postId]);
         return Extracter::extractValues($select, $this->adapter, $this->prototype);
     }
 }
