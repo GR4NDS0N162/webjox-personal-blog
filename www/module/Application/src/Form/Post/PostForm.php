@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Form\Post;
 
+use Application\Fieldset\ImageFieldset;
 use Application\Fieldset\PostFieldset;
 use Application\View\Helper\FormMultiCheckbox;
 use Application\View\Helper\FormRow;
@@ -49,6 +50,18 @@ class PostForm extends Form implements InputFilterProviderInterface
                 FormMultiCheckbox::OPTIONS_WRAPPER_CLASS => 'row g-3',
                 FormMultiCheckbox::OPTION_WRAPPER_CLASS  => 'col-12 col-md-6 col-xl-4',
                 FormMultiCheckbox::INPUT_WRAPPER_CLASS   => 'form-check',
+            ],
+        ]);
+
+        $this->add([
+            'name'       => 'images',
+            'type'       => ImageFieldset::class,
+            'attributes' => [
+                'id' => 'post_form-images',
+            ],
+            'options'    => [
+                'label'                => 'Images',
+                FormRow::WRAPPER_CLASS => 'col-12',
             ],
         ]);
 
