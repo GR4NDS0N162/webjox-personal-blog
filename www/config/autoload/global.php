@@ -13,5 +13,10 @@
  */
 
 return [
-    // ...
+    'db' => [
+        'driver'   => 'Pdo_Mysql',
+        'dsn'      => 'mysql:dbname=webjox-personal-blog;host=mysql;charset=utf8',
+        'username' => 'webjox-personal-blog',
+        'password' => 'webjox-personal-blog',
+    ],
 ];
