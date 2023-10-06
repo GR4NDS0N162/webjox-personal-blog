@@ -164,7 +164,7 @@ class PostController extends AbstractActionController
         assert($categoriesElement instanceof MultiCheckbox);
         $categoriesElement->setValueOptions($this->getOptions());
 
-        $form->setData($request->getPost());
+        $form->setData(array_merge_recursive($request->getPost()->toArray(), $request->getFiles()->toArray()));
         if (!$form->isValid()) {
             return $this->redirect()->toRoute('post');
         }
