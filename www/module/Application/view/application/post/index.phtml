@@ -2,10 +2,12 @@
 /**
  * @var PhpRenderer|HelperTrait $this
  * @var Paginator               $paginator
+ * @var Image[]                 $images
  * @var int                     $count
  * @var bool                    $isAdmin
  */
 
+use Application\Model\Entity\Image;
 use Laminas\Form\View\HelperTrait;
 use Laminas\Paginator\Paginator;
 use Laminas\View\Renderer\PhpRenderer;
@@ -37,6 +39,16 @@ use Laminas\View\Renderer\PhpRenderer;
                                             ['id' => $post->getId()]); ?>">Delete</a>
                                     </div>
                                 <?php endif; ?>
+                                <div class="col-12">
+                                    <div class="row g-3">
+                                        <?php foreach ($images[$post->getId()] as $image): ?>
+                                            <div class="col-auto">
+                                                <img src="<?= substr($image->getPath(), strlen('/var/www/public')); ?>"
+                                                     alt="<?= 'image_' . $image->getId(); ?>">
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
                                 <div class="col-12">
                                     <p class="mb-0"><?= $post->getContent(); ?></p>
                                 </div>

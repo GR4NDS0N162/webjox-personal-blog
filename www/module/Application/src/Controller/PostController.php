@@ -57,8 +57,14 @@ class PostController extends AbstractActionController
 
         $paginator = $this->getPaginator();
 
+        $images = [];
+        foreach ($paginator as $post) {
+            $images[$post->getId()] = $this->imageRepository->findByPostId($post->getId());
+        }
+
         return new ViewModel([
             'paginator' => $paginator,
+            'images'    => $images,
             'count'     => $paginator->getItemCountPerPage(),
             'isAdmin'   => Validator::isAdmin($this->sessionContainer),
         ]);
