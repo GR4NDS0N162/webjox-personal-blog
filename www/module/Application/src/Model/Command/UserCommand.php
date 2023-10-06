@@ -7,6 +7,7 @@ namespace Application\Model\Command;
 use Application\Helper\Command\Executer;
 use Application\Model\Entity\User;
 use Application\Model\Repository\UserRepositoryInterface;
+use InvalidArgumentException;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Sql\Insert;
 
@@ -19,11 +20,11 @@ class UserCommand implements UserCommandInterface
         private UserRepositoryInterface $userRepository,
     ) {}
 
-    public function insertUser(User $user): ?int
+    public function insertUser(User $user): int
     {
         $foundUser = $this->userRepository->findByEmail($user->getEmail());
         if (!is_null($foundUser)) {
-            return null;
+            throw new InvalidArgumentException('User with email ' . $user->getEmail() . ' exists');
         }
 
         $insert = new Insert(self::USERS);
@@ -33,7 +34,6 @@ class UserCommand implements UserCommandInterface
             'role_id'  => $user->getRoleId(),
         ]);
 
-        $user->setId((int)Executer::executeSql($insert, $this->db));
-        return $user->getId();
+        return (int)Executer::executeSql($insert, $this->db);
     }
 }

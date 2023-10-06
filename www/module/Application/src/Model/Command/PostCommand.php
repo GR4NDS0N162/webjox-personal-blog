@@ -101,14 +101,14 @@ class PostCommand implements PostCommandInterface
     /**
      * @inheritDoc
      */
-    public function insert(Post $post): mixed
+    public function insert(Post $post): int
     {
         $insert = new Insert(self::POSTS);
         $insert->values([
             'content'   => $post->getContent(),
             'status_id' => $post->getStatusId(),
         ]);
-        return Executer::executeSql($insert, $this->adapter);
+        return (int)Executer::executeSql($insert, $this->adapter);
     }
 
     /**

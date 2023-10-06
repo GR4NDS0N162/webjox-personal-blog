@@ -6,7 +6,7 @@ namespace Application\Model\Command;
 
 interface ImageCommandInterface
 {
-    public function insert(array $file, int $postId): mixed;
+    public function insert(array $file, int $postId): int;
 
     public function removeById(int $id): void;
 }

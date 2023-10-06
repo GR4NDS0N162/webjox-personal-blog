@@ -10,8 +10,9 @@ use Laminas\Form\Element\Button;
 use Laminas\Form\Element\Collection;
 use Laminas\Form\Element\MultiCheckbox;
 use Laminas\Form\Fieldset;
+use Laminas\InputFilter\InputFilterProviderInterface;
 
-class ImageFieldset extends Fieldset
+class ImageFieldset extends Fieldset implements InputFilterProviderInterface
 {
     public const CONTAINER_ID = 'images_to_add-container';
     public const REMOVE_CONTAINER_ID = 'images_to_remove-container';
@@ -36,7 +37,7 @@ class ImageFieldset extends Fieldset
                 'label_attributes'                       => [
                     'class' => 'form-check-label',
                 ],
-                'label_options' => [
+                'label_options'                          => [
                     'disable_html_escape' => true,
                 ],
                 FormRow::WRAPPER_CLASS                   => 'col-12',
@@ -84,5 +85,22 @@ class ImageFieldset extends Fieldset
                 FormRow::WRAPPER_CLASS => 'col-12',
             ],
         ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getInputFilterSpecification(): array
+    {
+        return [
+            [
+                'name'        => 'images_to_remove',
+                'allow_empty' => true,
+                'filters'     => [
+                ],
+                'validators'  => [
+                ],
+            ],
+        ];
     }
 }

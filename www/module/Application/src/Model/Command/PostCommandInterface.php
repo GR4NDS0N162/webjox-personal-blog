@@ -51,5 +51,5 @@ interface PostCommandInterface
      *
      * @return mixed|null
      */
-    public function insert(Post $post): mixed;
+    public function insert(Post $post): int;
 }

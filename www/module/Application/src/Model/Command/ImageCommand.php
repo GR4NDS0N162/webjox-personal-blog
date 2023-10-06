@@ -7,6 +7,7 @@ namespace Application\Model\Command;
 use Application\Helper\Command\Executer;
 use Application\Model\Repository\ImageRepositoryInterface;
 use Application\Model\Repository\PostRepositoryInterface;
+use InvalidArgumentException;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Sql\Delete;
 use Laminas\Db\Sql\Insert;
@@ -22,10 +23,10 @@ class ImageCommand implements ImageCommandInterface
         private ImageRepositoryInterface $imageRepository,
     ) {}
 
-    public function insert(array $file, int $postId): mixed
+    public function insert(array $file, int $postId): int
     {
         if (empty($file['tmp_name'])) {
-            return null;
+            throw new InvalidArgumentException('Name of file is empty');
         }
 
         do {
@@ -42,7 +43,7 @@ class ImageCommand implements ImageCommandInterface
             'path'    => $path,
             'post_id' => $postId,
         ]);
-        return Executer::executeSql($insert, $this->adapter);
+        return (int)Executer::executeSql($insert, $this->adapter);
     }
 
     public function removeById(int $id): void
