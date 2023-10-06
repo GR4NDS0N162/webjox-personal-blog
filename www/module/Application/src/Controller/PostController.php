@@ -126,7 +126,7 @@ class PostController extends AbstractActionController
             return $this->redirect()->toRoute('post');
         }
 
-        $this->postForm->setAttribute('action', $this->url()->fromRoute('post/save'));
+        $this->postForm->setAttribute('action', $this->url()->fromRoute('post/save', is_null($postId) ? [] : ['id' => (int)$postId]));
 
         return new ViewModel([
             'postId'   => $postId,
@@ -192,6 +192,13 @@ class PostController extends AbstractActionController
         assert($categoriesElement instanceof MultiCheckbox);
         $categoriesElement->setValueOptions($this->getOptions());
 
+        $postId = $this->params()->fromRoute('id');
+        if (!is_null($postId)) {
+            $imagesToRemoveElement = $this->postForm->get('images')->get('images_to_remove');
+            assert($imagesToRemoveElement instanceof MultiCheckbox);
+            $imagesToRemoveElement->setValueOptions($this->getImageToRemoveOptions((int)$postId));
+        }
+
         $form->setData(array_merge_recursive($request->getPost()->toArray(), $request->getFiles()->toArray()));
         if (!$form->isValid()) {
             return $this->redirect()->toRoute('post');
@@ -218,6 +225,10 @@ class PostController extends AbstractActionController
             $categoryIds[] = (int)$id;
         }
         $this->postCommand->updateCategories($post->getId(), $categoryIds);
+
+        foreach ($data['images']['images_to_remove'] ?? [] as $imageId) {
+            $this->imageCommand->removeById((int)$imageId);
+        }
 
         foreach ($data['images']['images_to_add'] ?? [] as $imageFieldset) {
             $file = $imageFieldset['image'];

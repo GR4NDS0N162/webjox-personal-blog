@@ -97,10 +97,13 @@ return [
                     ],
                 ],
                 'save'   => [
-                    'type'    => Literal::class,
+                    'type'    => Segment::class,
                     'options' => [
-                        'route'    => '/save',
-                        'defaults' => [
+                        'route'       => '/save[/:id]',
+                        'constraints' => [
+                            'id' => '[0-9]+',
+                        ],
+                        'defaults'    => [
                             'action' => 'save',
                         ],
                     ],
