@@ -21,7 +21,7 @@ services:
         target: /var/lib/mysql
       - type: bind
         source: ./webjox-personal-blog.sql
-        target: /webjox-personal-blog.sql
+        target: /docker-entrypoint-initdb.d/webjox-personal-blog.sql
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: true
       MYSQL_DATABASE: webjox-personal-blog
