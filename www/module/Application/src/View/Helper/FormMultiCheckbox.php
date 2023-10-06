@@ -134,7 +134,10 @@ class FormMultiCheckbox extends \Laminas\Form\View\Helper\FormMultiCheckbox
 
         $fieldsetWrapperClass = $element->getOption(self::OPTIONS_WRAPPER_CLASS);
         if ($fieldsetWrapperClass) {
-            $markup = sprintf('<div class="%s">%s</div>', $fieldsetWrapperClass, $markup);
+            $markup = sprintf('<div class="%s">' .
+                '<style>.list-notification { display: none; } .list-notification:last-child { display: block; }</style>' .
+                '<div class="list-notification">The list is empty.</div>' .
+                '%s</div>', $fieldsetWrapperClass, $markup);
         }
 
         return $markup;
